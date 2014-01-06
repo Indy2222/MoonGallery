@@ -17,16 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-include '../config.php';
-
 class Database {
 
     /**
      * Establishes connection to configured database server and select configured database.
      */
     function connect() {
-        $this->connection = mysql_connect($db_server, $db_user, $db_password);
-        mysql_select_db($db_database_name, $this->connection);
+        $this->connection = mysql_connect($GLOBALS["db_server"], $GLOBALS["db_user"], $GLOBALS["db_password"]);
+        mysql_select_db($GLOBALS["db_database_name"], $this->connection);
     }
 
     /**

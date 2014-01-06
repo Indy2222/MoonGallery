@@ -23,6 +23,7 @@ moonGalleryControllers.controller('UploaderCtrl', function($scope) {
     var lastUploadedFile = 0;
     var totalSize = 0;
     var uploaded = 0;
+    var finishedCallback;
 
     $scope.setFiles = function(element) {
         console.log('files:', element.files);
@@ -33,13 +34,36 @@ moonGalleryControllers.controller('UploaderCtrl', function($scope) {
         }
     };
 
-    $scope.uploadFiles = function() {
+    $scope.uploadGallery = function() {
         if ($scope.uploading) {
-            return; // cant upload two batches simultaneously
+            // cant upload two batches simultaneously
+            return;
         }
 
         $scope.uploading = true;
 
+        finishedCallback = function finished() {
+            finishedCallback = null;
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.addEventListener("load", function() {
+
+                $scope.uploading = false;
+                console.debug("Uploading finished!");
+            }, false);
+
+            xhr.open("POST", "service.php?service=upload&create=" + encodeURIComponent($scope.gallery.name));
+            xhr.send(null);
+
+
+
+        };
+
+        uploadFiles();
+    };
+
+    function uploadFiles() {
         totalSize = 0;
         uploaded = 0;
         lastUploadedChunk = 0;
@@ -66,18 +90,18 @@ moonGalleryControllers.controller('UploaderCtrl', function($scope) {
                 lastUploadedChunk = 0;
                 start = CHUNK_SIZE * lastUploadedChunk;
             } else {
-                finished();
+                finishedCallback && finishedCallback();
             }
         }
 
         if (file != null) {
             var chunk = file.slice(start, CHUNK_SIZE);
-            uploadChunk(chunk, start, file.size);
+            uploadChunk(chunk, file.name, start, file.size);
             lastUploadedChunk++;
         }
     }
 
-    function uploadChunk(chunk, start, size) {
+    function uploadChunk(chunk, fileId, start, size) {
         var formData = new FormData();
         formData.append("file", chunk);
 
@@ -86,13 +110,12 @@ moonGalleryControllers.controller('UploaderCtrl', function($scope) {
         xhr.addEventListener("load", uploadNext, false);
         xhr.addEventListener("error", uploadFailed, false);
         xhr.addEventListener("abort", uploadCanceled, false);
-        xhr.open("POST", "services/upload.php?start=" + start + "&size=" + size);
+        xhr.open("POST", "service.php?service=upload&id="
+                + encodeURIComponent(fileId) + "&start=" + start + "&size=" + size);
         xhr.send(formData);
     }
 
-    function finished() {
-        $scope.uploading = false;
-    }
+
 
     function updateProgress() {
         uploaded = 0;

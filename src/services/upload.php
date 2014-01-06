@@ -17,4 +17,52 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var_dump($_FILES);
+$FILES_DIR = getcwd() . "/files/";
+
+$galleryName = $_GET["create"];
+$fileId = $_GET["id"];
+$fileStart = $_GET["start"];
+$fileSize = $_GET["size"];
+
+if (isset($galleryName)) {
+    $query = "INSERT INTO `moongallery`.`gallery` (`name`) VALUES ('" . mysql_escape_string($galleryName) . "');";
+    mysql_query($query);
+    $galleryId = mysql_insert_id();
+
+    foreach ($_SESSION["fileName"] as $fileId => $fileName) {
+        $query = "INSERT INTO `moongallery`.`photo` (`gallery_id`, `name`)"
+                . " VALUES (" . $galleryId . ", "
+                . "'" . mysql_escape_string($fileId) . "');";
+        mysql_query($query);
+        $photoId = mysql_insert_id();
+
+        $fileName = $FILES_DIR . $fileName;
+        $query = "INSERT INTO `moongallery`.`entity` (`photo_id`, `data`, `type`)"
+                . " VALUES (" . $photoId . ", "
+                . "'" . mysql_escape_string($fileName) . "', 'full');";
+        mysql_query($query);
+    }
+    
+    unset($_SESSION["fileName"]);
+} else {
+    if (!isset($_SESSION['fileName'])) {
+        $_SESSION['fileName'] = array();
+    }
+
+    if (isset($_SESSION['fileName'][$fileId])) {
+        $fileName = $_SESSION['fileName'][$fileId];
+    } else {
+        $fileName = $_SESSION['fileName'][$fileId] = sha1($fileId + session_id() + time());
+    }
+    $fileName = $FILES_DIR . $fileName;
+
+    $file = $_FILES["file"];
+    $lastChunk = ($file["size"] + $fileStart) >= $fileSize;
+
+    $tmp = $FILES_DIR . time();
+    move_uploaded_file($file["tmp_name"], $tmp);
+    exec("cat " . $tmp . " >> " . $fileName); // TODO: this is not nice!
+    unlink($tmp);
+}
+
+echo json_encode(true);

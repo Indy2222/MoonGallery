@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <form>
-    Name: <input type="text" ng-model="gallery.name">
-    Photos: <input type="file" onchange="angular.element(this).scope().setFiles(this)" multiple>
-    <button ng-click="uploadFiles()">Upload</button>
-
+    Name: <input type="text" ng-model="gallery.name"><br>
+    Photos: <input type="file" onchange="angular.element(this).scope().setFiles(this)" multiple><br>
+    <button ng-click="uploadGallery()">Upload</button>
 </form>
+<div>Uploading progress: {{ progress }}</div>
