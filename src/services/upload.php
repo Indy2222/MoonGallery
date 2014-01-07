@@ -17,7 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-$FILES_DIR = getcwd() . "/files/";
+$FILES_DIR = "files/";
+$FILES_DIR_FULL = getcwd() . "/" . $FILES_DIR;
 
 $galleryName = $_GET["create"];
 $fileId = $_GET["id"];
@@ -25,7 +26,7 @@ $fileStart = $_GET["start"];
 $fileSize = $_GET["size"];
 
 if (isset($galleryName)) {
-    $query = "INSERT INTO `moongallery`.`gallery` (`name`) VALUES ('" . mysql_escape_string($galleryName) . "');";
+    $query = "INSERT INTO `gallery` (`name`) VALUES ('" . mysql_escape_string($galleryName) . "');";
     mysql_query($query);
     $galleryId = mysql_insert_id();
 
@@ -42,7 +43,7 @@ if (isset($galleryName)) {
                 . "'" . mysql_escape_string($fileName) . "', 'full');";
         mysql_query($query);
     }
-    
+
     unset($_SESSION["fileName"]);
 } else {
     if (!isset($_SESSION['fileName'])) {
@@ -54,12 +55,12 @@ if (isset($galleryName)) {
     } else {
         $fileName = $_SESSION['fileName'][$fileId] = sha1($fileId + session_id() + time());
     }
-    $fileName = $FILES_DIR . $fileName;
+    $fileName = $FILES_DIR_FULL . $fileName;
 
     $file = $_FILES["file"];
     $lastChunk = ($file["size"] + $fileStart) >= $fileSize;
 
-    $tmp = $FILES_DIR . time();
+    $tmp = $FILES_DIR_FULL . time();
     move_uploaded_file($file["tmp_name"], $tmp);
     exec("cat " . $tmp . " >> " . $fileName); // TODO: this is not nice!
     unlink($tmp);

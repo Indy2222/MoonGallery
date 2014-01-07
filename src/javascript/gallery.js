@@ -1,5 +1,3 @@
-<?php
-
 /*
  * Copyright (C) 2014 Martin Indra <martin.indra at mgn.cz>
  *
@@ -17,15 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-session_start();
+moonGalleryControllers.controller('GalleryCtrl', ["$scope", "$http", "$routeParams",
+    function($scope, $http, $routeParams) {
+        console.warn($routeParams);
 
-include 'config.php';
-include 'model/Database.php';
+        $scope.photos = [];
+        refreshPhotos();
 
-$database = new Database();
-$database->connect();
+        function refreshPhotos() {
+            $http.get('service.php?service=gallery&gallery=' + $routeParams.galleryId)
+                    .success(function(data) {
+                        // TODO: are data correct?
+                        $scope.photos = data;
+                    });
+        }
 
-$service = $_GET["service"];
-include 'services/' . $service . '.php';
-
-$database->disconnect();
+    }
+]);

@@ -24,7 +24,7 @@ class Database {
      */
     function connect() {
         $this->connection = mysql_connect($GLOBALS["db_server"], $GLOBALS["db_user"], $GLOBALS["db_password"]);
-        mysql_select_db($GLOBALS["db_database_name"], $this->connection);
+        mysql_select_db($GLOBALS["db_database_name"]);
     }
 
     /**

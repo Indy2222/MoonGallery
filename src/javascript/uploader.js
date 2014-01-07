@@ -48,16 +48,19 @@ moonGalleryControllers.controller('UploaderCtrl', function($scope) {
             var xhr = new XMLHttpRequest();
 
             xhr.addEventListener("load", function() {
-
                 $scope.uploading = false;
+
+                // TODO: empty form
+                //$scope.gallery = {
+                //    files: "",
+                //    name: ""
+                //};
+
                 console.debug("Uploading finished!");
             }, false);
 
             xhr.open("POST", "service.php?service=upload&create=" + encodeURIComponent($scope.gallery.name));
             xhr.send(null);
-
-
-
         };
 
         uploadFiles();

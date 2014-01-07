@@ -15,6 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-moonGalleryControllers.controller('GalleriesCtrl', function($scope) {
+moonGalleryControllers.controller('GalleriesCtrl', ["$scope", "$http", function($scope, $http) {
 
-});
+    $scope.galleries = [];
+    refreshGalleries();
+
+    function refreshGalleries() {
+        $http.get('service.php?service=galleries').success(function(data) {
+            // TODO: are data correct?
+            $scope.galleries = data;
+        });
+    }
+}]);

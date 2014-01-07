@@ -23,11 +23,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <script src="javascript/main.js"></script>
         <script src="javascript/uploader.js"></script>
         <script src="javascript/galleries.js"></script>
+        <script src="javascript/gallery.js"></script>
 
         <title>Moon Gallery</title><!-- TODO: configurable title -->
         <meta charset="UTF-8">
     </head>
     <body>
-         <div ng-view></div>
+        <div>
+            <a href="#/galleries">List of galleries</a>
+            <a href="#/upload">Upload gallery</a>
+        </div>
+
+        <div ng-view></div>
     </body>
 </html>

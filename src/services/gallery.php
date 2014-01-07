@@ -17,15 +17,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-session_start();
+class Photo {
+    public function __construct($id, $name, $preview) {
+        $this->id = $id;
+        $this->name = $name;
+        $this->preview = $preview;
+    }
+}
 
-include 'config.php';
-include 'model/Database.php';
+$galleryId = $_GET["gallery"];
+$query = mysql_query("SELECT photo.id, photo.name, entity.data AS preview FROM  `photo` "
+        . "LEFT JOIN  `entity` ON photo.id = entity.photo_id "
+        . "WHERE photo.gallery_id = '" . mysql_real_escape_string($galleryId). "'"
+        . "GROUP BY photo.id "
+        . "LIMIT 0 , 30");
+$photos = array();
 
-$database = new Database();
-$database->connect();
+while ($row = mysql_fetch_array($query)) {
+    $photo = new Photo($row["id"], $row["name"], $row["preview"]);
+    array_push($photos, $photo);
+}
 
-$service = $_GET["service"];
-include 'services/' . $service . '.php';
-
-$database->disconnect();
+echo json_encode($photos);

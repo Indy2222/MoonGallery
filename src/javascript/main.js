@@ -29,6 +29,10 @@ moonGallery.config(['$routeProvider',
         templateUrl: 'partials/galleries.html',
         controller: 'GalleriesCtrl'
       }).
+                    when('/gallery/:galleryId', {
+        templateUrl: 'partials/gallery.html',
+        controller: 'GalleryCtrl'
+      }).
       when('/upload', {
         templateUrl: 'partials/uploader.html',
         controller: 'UploaderCtrl'
@@ -37,3 +41,5 @@ moonGallery.config(['$routeProvider',
         redirectTo: '/galleries'
       });
   }]);
+
+phoneId

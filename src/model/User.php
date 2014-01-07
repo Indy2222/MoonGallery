@@ -17,15 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-session_start();
-
-include 'config.php';
-include 'model/Database.php';
-
-$database = new Database();
-$database->connect();
-
-$service = $_GET["service"];
-include 'services/' . $service . '.php';
-
-$database->disconnect();
+class User {
+    
+}
