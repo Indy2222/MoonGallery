@@ -25,7 +25,7 @@ var moonGallery = angular.module('moonGallery', [
 moonGallery.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
-                when('/galleries', {
+                when('/galleries/', {
                     templateUrl: 'partials/galleries.html',
                     controller: 'GalleriesCtrl'
                 }).

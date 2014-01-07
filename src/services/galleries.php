@@ -26,17 +26,36 @@ class Gallery {
     }
 }
 
+class Galleries {
+
+    public function __construct($count, $perPage) {
+        $this->perPage = $perPage;
+        $this->count = $count;
+        $this->galleries = array();
+    }
+
+    public function addGallery($gallery) {
+        array_push($this->galleries, $gallery);
+    }
+}
+
+$query = mysql_query("SELECT count(*) AS count FROM `gallery`;");
+$row = mysql_fetch_array($query);
+$count = $row["count"];
+$perPage = 10;
+
+$start = $_GET["start"];
 $query = mysql_query("SELECT gallery.id, gallery.name, entity.data AS preview FROM  `gallery` "
         . "LEFT JOIN  `photo` ON gallery.id = photo.gallery_id "
         . "LEFT JOIN  `entity` ON photo.id = entity.photo_id "
         . "WHERE entity.type = 'preview' "
         . "GROUP BY gallery.id "
-        . "LIMIT 0 , 30");
-$galleries = array();
+        . "LIMIT " . mysql_real_escape_string($start). " , " . $perPage);
 
+$galleries = new Galleries($count, $perPage);
 while ($row = mysql_fetch_array($query)) {
     $gallery = new Gallery($row["id"], $row["name"], $row["preview"]);
-    array_push($galleries, $gallery);
+    $galleries->addGallery($gallery);
 }
 
 echo json_encode($galleries);

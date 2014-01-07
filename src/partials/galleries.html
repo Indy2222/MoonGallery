@@ -25,3 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </a>
     </div>
 </ul>
+
+<div ng-show="listing != null">
+    <a style="margin-right: 10px;" ng-repeat="page in listing" ng-click="refreshGalleries(page.start)">{{page.number}}</a>
+</div>

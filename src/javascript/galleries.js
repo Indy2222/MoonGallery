@@ -15,15 +15,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-moonGalleryControllers.controller('GalleriesCtrl', ["$scope", "$http", function($scope, $http) {
+moonGalleryControllers.controller('GalleriesCtrl', ["$scope", "$http",
+    function($scope, $http) {
 
-    $scope.galleries = [];
-    refreshGalleries();
+        $scope.galleries = [];
 
-    function refreshGalleries() {
-        $http.get('service.php?service=galleries').success(function(data) {
-            // TODO: are data correct?
-            $scope.galleries = data;
-        });
-    }
-}]);
+        $scope.refreshGalleries = function(start) {
+            var start = start ? start : 0;
+            $http.get('service.php?service=galleries&start=' + start).
+                    success(function(data) {
+                        var perPage = data.perPage;
+                        var count = data.count;
+
+                        if (count > perPage) {
+                            $scope.listing = [];
+                            for (var i = 0; i < (count / perPage); i++) {
+                                $scope.listing.push({
+                                    start: i * perPage,
+                                    number: i
+                                });
+                            }
+                        } else {
+                            $scope.listing = null;
+                        }
+
+                        // TODO: are data correct?
+                        $scope.galleries = data.galleries;
+                    });
+        }
+
+        $scope.refreshGalleries();
+    }]);
