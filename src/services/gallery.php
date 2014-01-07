@@ -28,7 +28,7 @@ class Photo {
 $galleryId = $_GET["gallery"];
 $query = mysql_query("SELECT photo.id, photo.name, entity.data AS preview FROM  `photo` "
         . "LEFT JOIN  `entity` ON photo.id = entity.photo_id "
-        . "WHERE photo.gallery_id = '" . mysql_real_escape_string($galleryId). "'"
+        . "WHERE photo.gallery_id = '" . mysql_real_escape_string($galleryId). "' AND entity.type = 'preview' "
         . "GROUP BY photo.id "
         . "LIMIT 0 , 30");
 $photos = array();

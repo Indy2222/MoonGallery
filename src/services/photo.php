@@ -17,12 +17,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-$db_server = "localhost"; // MySQL database adress
-$db_user = "moongallery"; // MySQL database user
-$db_password = "naguheslo"; // MySQL database password
-$db_database_name = "moongallery"; // MySQL database name
+class Photo {
 
-$files_dir = "files/"; // directory to which upload photos
+    public function __construct($name, $image) {
+        $this->name = $name;
+        $this->image = $image;
+    }
 
-$preview_width = 250; // preview image width
-$normal_width = 1024; // normal image width
+}
+
+$photoId = $_GET["id"];
+$photo = null;
+
+$query = mysql_query("SELECT photo.name, entity.data AS image FROM  `photo` "
+        . "LEFT JOIN  `entity` ON photo.id = entity.photo_id "
+        . "WHERE photo.id = '" . mysql_real_escape_string($photoId) . "' AND entity.type = 'normal' "
+        . "GROUP BY photo.id "
+        . "LIMIT 1");
+
+$row = mysql_fetch_array($query);
+if ($row != null) {
+    $photo = new Photo($row["name"], $row["image"]);
+}
+
+echo json_encode($photo);

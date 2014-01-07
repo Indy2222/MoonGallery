@@ -18,28 +18,30 @@
 var moonGalleryControllers = angular.module('moonGalleryControllers', []);
 
 var moonGallery = angular.module('moonGallery', [
-  'ngRoute',
-  'moonGalleryControllers'
+    'ngRoute',
+    'moonGalleryControllers'
 ]);
 
 moonGallery.config(['$routeProvider',
-  function($routeProvider) {
-    $routeProvider.
-      when('/galleries', {
-        templateUrl: 'partials/galleries.html',
-        controller: 'GalleriesCtrl'
-      }).
-                    when('/gallery/:galleryId', {
-        templateUrl: 'partials/gallery.html',
-        controller: 'GalleryCtrl'
-      }).
-      when('/upload', {
-        templateUrl: 'partials/uploader.html',
-        controller: 'UploaderCtrl'
-      }).
-      otherwise({
-        redirectTo: '/galleries'
-      });
-  }]);
-
-phoneId
+    function($routeProvider) {
+        $routeProvider.
+                when('/galleries', {
+                    templateUrl: 'partials/galleries.html',
+                    controller: 'GalleriesCtrl'
+                }).
+                when('/gallery/:galleryId', {
+                    templateUrl: 'partials/gallery.html',
+                    controller: 'GalleryCtrl'
+                }).
+                when('/photo/:photoId', {
+                    templateUrl: 'partials/photo.html',
+                    controller: 'PhotoCtrl'
+                }).
+                when('/upload', {
+                    templateUrl: 'partials/uploader.html',
+                    controller: 'UploaderCtrl'
+                }).
+                otherwise({
+                    redirectTo: '/galleries'
+                });
+    }]);

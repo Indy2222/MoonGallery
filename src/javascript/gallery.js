@@ -17,8 +17,6 @@
 
 moonGalleryControllers.controller('GalleryCtrl', ["$scope", "$http", "$routeParams",
     function($scope, $http, $routeParams) {
-        console.warn($routeParams);
-
         $scope.photos = [];
         refreshPhotos();
 

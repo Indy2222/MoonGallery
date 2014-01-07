@@ -1,5 +1,3 @@
-<?php
-
 /*
  * Copyright (C) 2014 Martin Indra <martin.indra at mgn.cz>
  *
@@ -18,5 +16,16 @@
  */
 
 
+moonGalleryControllers.controller('PhotoCtrl', ["$scope", "$http", "$routeParams",
+    function($scope, $http, $routeParams) {
+        refreshDetails();
 
-echo "Test";
+        function refreshDetails() {
+            $http.get('service.php?service=photo&id=' + $routeParams.photoId)
+                    .success(function(data) {
+                        // TODO: are data correct?
+                        $scope.photo = data;
+                    });
+        }
+    }
+]);
