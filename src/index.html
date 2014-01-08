@@ -28,13 +28,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <title>Moon Gallery</title><!-- TODO: configurable title -->
         <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
     </head>
     <body>
-        <div>
+        <div class="top_bar">
             <a href="#/galleries">List of galleries</a>
             <a href="#/upload">Upload gallery</a>
         </div>
-
-        <div ng-view></div>
+        <div class="content">
+            <div ng-view></div>
+        </div>
     </body>
 </html>

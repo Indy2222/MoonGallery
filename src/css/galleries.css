@@ -1,0 +1,91 @@
+/*
+Copyright (C) 2014 Martin Indra <martin.indra at mgn.cz>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/*
+    Created on : Jan 8, 2014, 8:59:35 PM
+    Author     : Martin Indra <martin.indra at mgn.cz>
+*/
+/*
+Copyright (C) 2014 Martin Indra <martin.indra at mgn.cz>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/*
+    Created on : Jan 8, 2014, 8:56:01 PM
+    Author     : Martin Indra <martin.indra at mgn.cz>
+*/
+/* line 22, /home/indy/MoonGames/git/MoonGallery/src/less/mixins.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/mixins\.less}line{font-family:\0000322}}
+.light_color {
+  color: #3489d1;
+}
+/* line 26, /home/indy/MoonGames/git/MoonGallery/src/less/mixins.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/mixins\.less}line{font-family:\0000326}}
+.dark_color {
+  color: #242424;
+}
+/* line 24, /home/indy/MoonGames/git/MoonGallery/src/less/galleries.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/galleries\.less}line{font-family:\0000324}}
+.galleries {
+  text-align: center;
+}
+/* line 28, /home/indy/MoonGames/git/MoonGallery/src/less/galleries.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/galleries\.less}line{font-family:\0000328}}
+.galleries .gallery {
+  display: inline-block;
+  width: 240px;
+  margin: 10px;
+  padding: 0;
+  text-align: center;
+  cursor: pointer;
+}
+/* line 37, /home/indy/MoonGames/git/MoonGallery/src/less/galleries.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/galleries\.less}line{font-family:\0000337}}
+.galleries .gallery img {
+  display: block;
+  width: 100%;
+}
+/* line 42, /home/indy/MoonGames/git/MoonGallery/src/less/galleries.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/galleries\.less}line{font-family:\0000342}}
+.galleries .gallery .name {
+  margin-top: 10px;
+}
+/* line 46, /home/indy/MoonGames/git/MoonGallery/src/less/galleries.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/galleries\.less}line{font-family:\0000346}}
+.galleries .listing {
+  font-family: MG003;
+  margin: 40px;
+  font-size: 16pt;
+  color: #242424;
+}
+/* line 53, /home/indy/MoonGames/git/MoonGallery/src/less/galleries.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/galleries\.less}line{font-family:\0000353}}
+.galleries .listing a {
+  margin-left: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+}

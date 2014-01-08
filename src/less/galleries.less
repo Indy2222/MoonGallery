@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<!--
+/*
 Copyright (C) 2014 Martin Indra <martin.indra at mgn.cz>
 
 This program is free software: you can redistribute it and/or modify
@@ -14,18 +13,45 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
+*/
+/*
+    Created on : Jan 8, 2014, 8:59:35 PM
+    Author     : Martin Indra <martin.indra at mgn.cz>
+*/
 
-<div class="galleries">
-    <div ng-repeat="gallery in galleries" ng-click="showGallery(gallery.id)" class="gallery">
+@import "mixins.less";
 
-        <img ng-src="{{gallery.preview}}" alt="{{gallery.name}}">
-        <div class="name">{{gallery.name}}</div>
+.galleries {
+    text-align: center;
+}
 
-    </div>
+.galleries .gallery {
+    display: inline-block;
+    width: 240px;
+    margin: 10px;
+    padding: 0;
+    text-align: center;
+    cursor: pointer;
+}
 
+.galleries .gallery img {
+    display: block;
+    width: 100%;
+}
 
-    <div ng-show="listing != null" class="listing">
-        <a ng-repeat="page in listing" ng-click="refreshGalleries(page.start)">{{page.number}}</a>
-    </div>
-</div>
+.galleries .gallery .name {
+    margin-top: 10px;
+}
+
+.galleries .listing {
+    font-family: MG003;
+    margin: 40px;
+    font-size: 16pt;
+    .dark_color;
+}
+
+.galleries .listing a {
+    margin-left: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}

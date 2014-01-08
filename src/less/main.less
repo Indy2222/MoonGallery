@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<!--
+/*
 Copyright (C) 2014 Martin Indra <martin.indra at mgn.cz>
 
 This program is free software: you can redistribute it and/or modify
@@ -14,18 +13,33 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
+*/
+/*
+    Created on : Jan 8, 2014, 8:16:21 PM
+    Author     : Martin Indra <martin.indra at mgn.cz>
+*/
 
-<div class="galleries">
-    <div ng-repeat="gallery in galleries" ng-click="showGallery(gallery.id)" class="gallery">
+@import "fonts.less";
+@import "mixins.less";
 
-        <img ng-src="{{gallery.preview}}" alt="{{gallery.name}}">
-        <div class="name">{{gallery.name}}</div>
-
-    </div>
+@import "top_bar.less";
+@import "galleries.less";
 
 
-    <div ng-show="listing != null" class="listing">
-        <a ng-repeat="page in listing" ng-click="refreshGalleries(page.start)">{{page.number}}</a>
-    </div>
-</div>
+body {
+    background-color: #f6f6f6;
+    font-family: MG001;
+    margin: 0;
+    .dark_color;
+}
+
+.content {
+    position: fixed;
+    top: 40px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    overflow: scroll;
+}
+
+

@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<!--
+/*
 Copyright (C) 2014 Martin Indra <martin.indra at mgn.cz>
 
 This program is free software: you can redistribute it and/or modify
@@ -14,18 +13,18 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-
-<div class="galleries">
-    <div ng-repeat="gallery in galleries" ng-click="showGallery(gallery.id)" class="gallery">
-
-        <img ng-src="{{gallery.preview}}" alt="{{gallery.name}}">
-        <div class="name">{{gallery.name}}</div>
-
-    </div>
-
-
-    <div ng-show="listing != null" class="listing">
-        <a ng-repeat="page in listing" ng-click="refreshGalleries(page.start)">{{page.number}}</a>
-    </div>
-</div>
+*/
+/*
+    Created on : Jan 8, 2014, 8:56:01 PM
+    Author     : Martin Indra <martin.indra at mgn.cz>
+*/
+/* line 22, /home/indy/MoonGames/git/MoonGallery/src/less/mixins.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/mixins\.less}line{font-family:\0000322}}
+.light_color {
+  color: #3489d1;
+}
+/* line 26, /home/indy/MoonGames/git/MoonGallery/src/less/mixins.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/mixins\.less}line{font-family:\0000326}}
+.dark_color {
+  color: #242424;
+}

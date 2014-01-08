@@ -15,34 +15,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-moonGalleryControllers.controller('GalleriesCtrl', ["$scope", "$http",
-    function($scope, $http) {
-
+moonGalleryControllers.controller('GalleriesCtrl', ["$scope", "$http", "$location",
+    function($scope, $http, $location) {
         $scope.galleries = [];
+        $scope.refreshGalleries = refreshGalleries;
+        $scope.showGallery = showGallery;
 
-        $scope.refreshGalleries = function(start) {
+        refreshGalleries();
+
+        function showGallery(gallery) {
+            $location.path("/gallery/" + gallery);
+        }
+
+        function refreshGalleries(start) {
             var start = start ? start : 0;
             $http.get('service.php?service=galleries&start=' + start).
                     success(function(data) {
-                        var perPage = data.perPage;
-                        var count = data.count;
-
-                        if (count > perPage) {
-                            $scope.listing = [];
-                            for (var i = 0; i < (count / perPage); i++) {
-                                $scope.listing.push({
-                                    start: i * perPage,
-                                    number: i
-                                });
-                            }
-                        } else {
-                            $scope.listing = null;
-                        }
-
                         // TODO: are data correct?
+
+                        refreshListing(data.count, data.perPage);
                         $scope.galleries = data.galleries;
                     });
         }
 
-        $scope.refreshGalleries();
+        function refreshListing(totalCount, onPage) {
+            if (totalCount > onPage) {
+                $scope.listing = [];
+                for (var i = 0; i < (totalCount / onPage); i++) {
+                    $scope.listing.push({
+                        start: i * onPage,
+                        number: i
+                    });
+                }
+            } else {
+                $scope.listing = null;
+            }
+        }
     }]);
