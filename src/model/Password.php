@@ -17,23 +17,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Database {
+require_once 'model/StringUtils.php';
 
-    protected $connection;
+class Password {
 
-    /**
-     * Establishes connection to configured database server and select configured database.
-     */
-    function connect() {
-        $this->connection = mysql_connect($GLOBALS["db_server"], $GLOBALS["db_user"], $GLOBALS["db_password"]);
-        mysql_select_db($GLOBALS["db_database_name"]);
+    protected $hash;
+    protected $salt;
+
+    public function initFromPassword($password) {
+        $this->salt = $this->generateSalt();
+        $this->hash = hash("sha256", $password . $this->salt);
     }
 
-    /**
-     * Disconnect from database.
-     */
-    function disconnect() {
-        mysql_close($this->connection);
+    public function initFromHash($hash, $salt) {
+        $this->hash = $hash;
+        $this->salt = $salt;
     }
 
+    public function test($password) {
+        $hash = hash("sha256", $password . $this->salt);
+        return $hash == $this->hash;
+    }
+
+    protected function generateSalt() {
+        return StringUtils::generateRandomString(15);
+    }
 }

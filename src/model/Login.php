@@ -17,23 +17,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Database {
+require_once 'model/UserLoader.php';
 
-    protected $connection;
+class Login {
 
-    /**
-     * Establishes connection to configured database server and select configured database.
-     */
-    function connect() {
-        $this->connection = mysql_connect($GLOBALS["db_server"], $GLOBALS["db_user"], $GLOBALS["db_password"]);
-        mysql_select_db($GLOBALS["db_database_name"]);
+    protected $user = null;
+
+    public function refresh() {
+        if (isset($_SESSION["user"])) {
+            $userLoader = new UserLoader($_SESSION["user"]);
+            $userLoader->load();
+            $this->user = $userLoader->get();
+        } else {
+            $this->user = null;
+        }
     }
 
-    /**
-     * Disconnect from database.
-     */
-    function disconnect() {
-        mysql_close($this->connection);
+    public function getUser() {
+        return $this->user;
     }
 
+    public function isLoggedIn() {
+        return $this->user != null;
+    }
 }

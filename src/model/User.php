@@ -17,6 +17,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+require_once 'model/Password.php';
+require_once 'model/Person.php';
+require_once 'model/Group.php';
+
 class User {
-    
+
+    protected $id;
+    protected $email;
+    protected $password;
+
+    protected $person;
+    protected $defaultGroup;
+    protected $groups = [];
+
+
+    public function __construct($id, $email, $password) {
+        $this->id = $id;
+        $this->email = $email;
+        $this->password = $password;
+    }
+
+    public function setPerson($person) {
+        $this->person = $person;
+    }
+
+    public function addGroup($group, $default = false) {
+        array_push($this->groups, $group);
+        if ($default) {
+            $this->defaultGroup = $group;
+        }
+    }
 }

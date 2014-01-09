@@ -19,9 +19,9 @@
 
 //TODO: check if user has rights to upload
 if (isset($_GET["create"])) {
-    include 'services/upload/create.php';
+    require 'services/upload/create.php';
 } else {
-    include 'services/upload/upload.php';
+    require 'services/upload/upload.php';
 }
 
 echo json_encode(true);

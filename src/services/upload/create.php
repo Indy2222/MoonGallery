@@ -17,53 +17,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-include "model/SimpleImage.php";
-
 $galleryName = $_GET["create"];
 
 mysql_query("INSERT INTO `gallery` (`name`) VALUES ('" . mysql_escape_string($galleryName) . "');");
 $galleryId = mysql_insert_id();
 
-foreach ($_SESSION["fileName"] as $fileId => $fileName) {
-    savePhoto($galleryId, $fileId, $fileName);
+foreach ($_SESSION["galleryFiles"] as $fileId => $files) {
+    savePhoto($galleryId, $fileId, $files);
 }
 
-unset($_SESSION["fileName"]);
+unset($_SESSION["galleryFiles"]);
 
-function savePhoto($galleryId, $name, $file) {
+function savePhoto($galleryId, $name, $files) {
     mysql_query("INSERT INTO `photo` (`gallery_id`, `name`)"
             . " VALUES (" . $galleryId . ", "
             . "'" . mysql_escape_string($name) . "');");
     $photoId = mysql_insert_id();
 
-    saveEntities($photoId, $file);
+    saveEntities($photoId, $files);
 }
 
-function saveEntities($photoId, $file) {
-    saveEntity($photoId, $GLOBALS["files_dir"] . $file); // save full sized image
-    saveEntityScaled($photoId, $file, "normal");
-    saveEntityScaled($photoId, $file, "preview");
-}
-
-function saveEntityScaled($photoId, $original, $type) {
-    if ($type == "normal") {
-        $width = $GLOBALS["normal_width"];
-    } else if ($type == "preview") {
-        $width = $GLOBALS["preview_width"];
-    } else {
-        $width = $GLOBALS["preview_width"];
-        $type = "preview";
-    }
-
-    $scaledName = sha1($fileId + session_id() + microtime() + $type);
-
-    $directory = getcwd() . "/";
-    $image = new SimpleImage();
-    $image->load($directory . $GLOBALS["files_dir"] . $original);
-    $image->resizeToWidth($width);
-    $image->save($directory . $GLOBALS["files_dir"] . $scaledName);
-
-    saveEntity($photoId, $GLOBALS["files_dir"] . $scaledName, $type);
+function saveEntities($photoId, $files) {
+    saveEntity($photoId, $files['full'], 'full');
+    saveEntity($photoId, $files['normal'], 'normal');
+    saveEntity($photoId, $files['preview'], 'preview');
 }
 
 function saveEntity($photoId, $file, $type = "full") {

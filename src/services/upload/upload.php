@@ -17,35 +17,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+require_once 'model/PhotoSaver.php';
+require_once 'model/StringUtils.php';
+
 $fileId = $_GET["id"];
 $fileStart = $_GET["start"];
 $fileSize = $_GET["size"];
 
-if (!isset($_SESSION['fileName'])) {
-    $_SESSION['fileName'] = array();
-}
-
-if (isset($_SESSION['fileName'][$fileId])) {
-    $fileName = $_SESSION['fileName'][$fileId];
+if (isset($_SESSION['fileName'])) {
+    $fileName = $_SESSION['fileName'];
 } else {
-    $fileName = generateFileName($fileId);
-    $_SESSION['fileName'][$fileId] = $fileName;
+    $fileName = randomFile();
+    $_SESSION['fileName'] = $fileName;
 }
-$fullPathFilesDir = getcwd() . "/" . $files_dir;
-$fileName = $fullPathFilesDir . $fileName;
 
 $file = $_FILES["file"];
-//$lastChunk = ($file["size"] + $fileStart) >= $fileSize;
-
-$tmp = $fullPathFilesDir . round(microtime(true) * 1000);
-
-var_dump($tmp);
-var_dump($fileName);
-
+$tmp = randomFile();
 move_uploaded_file($file["tmp_name"], $tmp);
 exec("cat " . $tmp . " >> " . $fileName); // TODO: this is not nice!
 unlink($tmp);
 
-function generateFileName($fileId) {
-    return sha1($fileId + session_id() + microtime());
+$lastChunk = ($file["size"] + $fileStart) >= $fileSize;
+if ($lastChunk == 1) {
+    unset($_SESSION["fileName"]);
+    $photoSaver = new PhotoSaver($fileName);
+    $photoSaver->save();
+
+    if (!isset($_SESSION['galleryFiles'])) {
+        $_SESSION['galleryFiles'] = array();
+    }
+    $_SESSION['galleryFiles'][$fileId] = $photoSaver->getImages();
+}
+
+function randomFile() {
+    return getcwd() . "/" . $GLOBALS["files_dir"] . StringUtils::generateRandomString(25);
 }

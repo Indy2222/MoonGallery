@@ -19,12 +19,17 @@
 
 session_start();
 
-include 'config.php';
-include 'model/Database.php';
+require 'config.php';
+require_once 'model/Database.php';
+require_once 'model/Login.php';
 
 $database = new Database();
 $database->connect();
 
+$login = new Login();
+$login->refresh();
+
+// process requested service
 $service = $_GET["service"];
 include 'services/' . $service . '.php';
 

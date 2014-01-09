@@ -18,7 +18,7 @@
 
 moonGalleryControllers.controller('UploaderCtrl', function($scope) {
 
-    var CHUNK_SIZE = 1024 *1024; // one MiB
+    var CHUNK_SIZE = 1024 * 1024; // one MiB
     var lastUploadedChunk = 0;
     var lastUploadedFile = 0;
     var totalSize = 0;
@@ -98,7 +98,7 @@ moonGalleryControllers.controller('UploaderCtrl', function($scope) {
         }
 
         if (file != null) {
-            var chunk = file.slice(start, CHUNK_SIZE);
+            var chunk = file.slice(start, start + CHUNK_SIZE);
             uploadChunk(chunk, file.name, start, file.size);
             lastUploadedChunk++;
         }

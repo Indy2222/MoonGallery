@@ -17,23 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Database {
+class StringUtils {
 
-    protected $connection;
+    public static function generateRandomString($length) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-    /**
-     * Establishes connection to configured database server and select configured database.
-     */
-    function connect() {
-        $this->connection = mysql_connect($GLOBALS["db_server"], $GLOBALS["db_user"], $GLOBALS["db_password"]);
-        mysql_select_db($GLOBALS["db_database_name"]);
+        srand(floor(microtime(true) * 1000));
+        $string = '';
+        for ($i = 0; $i < $length; $i++) {
+            $string .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        return $string;
     }
-
-    /**
-     * Disconnect from database.
-     */
-    function disconnect() {
-        mysql_close($this->connection);
-    }
-
 }

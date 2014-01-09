@@ -17,23 +17,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Database {
+class Person {
 
-    protected $connection;
+    protected $id;
+    protected $fullName;
+    protected $alias;
 
-    /**
-     * Establishes connection to configured database server and select configured database.
-     */
-    function connect() {
-        $this->connection = mysql_connect($GLOBALS["db_server"], $GLOBALS["db_user"], $GLOBALS["db_password"]);
-        mysql_select_db($GLOBALS["db_database_name"]);
+    public function __construct($id, $fullName, $alias) {
+        $this->id = $id;
+        $this->alias = $alias;
+        $this->fullName = $fullName;
     }
-
-    /**
-     * Disconnect from database.
-     */
-    function disconnect() {
-        mysql_close($this->connection);
-    }
-
 }
