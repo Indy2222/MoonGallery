@@ -74,6 +74,6 @@ class PhotoSaver {
     }
 
     protected function generateName($type) {
-        return hash("sha256", $type . StringUtils::generateRandomString(20));
+        return hash("sha256", $type . StringUtils::generateRandomString(40));
     }
 }

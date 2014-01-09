@@ -22,7 +22,7 @@ class StringUtils {
     public static function generateRandomString($length) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-        srand(floor(microtime(true) * 1000));
+        //srand(floor(microtime(true) * 1000));
         $string = '';
         for ($i = 0; $i < $length; $i++) {
             $string .= $characters[rand(0, strlen($characters) - 1)];

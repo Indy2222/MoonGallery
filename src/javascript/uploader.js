@@ -24,6 +24,7 @@ moonGalleryControllers.controller('UploaderCtrl', function($scope) {
     var totalSize = 0;
     var uploaded = 0;
     var finishedCallback;
+    var uploadingGalleryName;
 
     $scope.setFiles = function(element) {
         console.log('files:', element.files);
@@ -41,6 +42,7 @@ moonGalleryControllers.controller('UploaderCtrl', function($scope) {
         }
 
         $scope.uploading = true;
+        uploadingGalleryName = $scope.gallery.name;
 
         finishedCallback = function finished() {
             finishedCallback = null;
@@ -49,17 +51,10 @@ moonGalleryControllers.controller('UploaderCtrl', function($scope) {
 
             xhr.addEventListener("load", function() {
                 $scope.uploading = false;
-
-                // TODO: empty form
-                //$scope.gallery = {
-                //    files: "",
-                //    name: ""
-                //};
-
                 console.debug("Uploading finished!");
             }, false);
 
-            xhr.open("POST", "service.php?service=upload&create=" + encodeURIComponent($scope.gallery.name));
+            xhr.open("POST", "service.php?service=upload&create=" + encodeURIComponent(uploadingGalleryName));
             xhr.send(null);
         };
 
@@ -67,6 +62,11 @@ moonGalleryControllers.controller('UploaderCtrl', function($scope) {
     };
 
     function uploadFiles() {
+        $scope.gallery = {
+            files: "",
+            name: ""
+        };
+
         totalSize = 0;
         uploaded = 0;
         lastUploadedChunk = 0;
@@ -76,26 +76,26 @@ moonGalleryControllers.controller('UploaderCtrl', function($scope) {
         }
 
         uploadNext();
-    };
+    }
 
     function uploadNext() {
-        updateProgress();
-
         var file = $scope.files[lastUploadedFile];
         var start = CHUNK_SIZE * lastUploadedChunk;
 
         if (start >= file.size) {
             file = null;
             lastUploadedFile++;
+            lastUploadedChunk = 0;
+            start = 0;
 
             if (lastUploadedFile < $scope.files.length) {
                 var file = $scope.files[lastUploadedFile];
-                lastUploadedChunk = 0;
-                start = CHUNK_SIZE * lastUploadedChunk;
             } else {
                 finishedCallback && finishedCallback();
             }
         }
+
+        updateProgress();
 
         if (file != null) {
             var chunk = file.slice(start, start + CHUNK_SIZE);
@@ -118,24 +118,24 @@ moonGalleryControllers.controller('UploaderCtrl', function($scope) {
         xhr.send(formData);
     }
 
-
-
     function updateProgress() {
         uploaded = 0;
 
-        for (var i = 0; i < lastUploadedFile; i++) {
+        for (var i = 0; i < lastUploadedFile && i < $scope.files.length; i++) {
             uploaded += $scope.files[i].size;
         }
         uploaded += lastUploadedChunk * CHUNK_SIZE;
 
-        $scope.progress = Math.round(1000 * uploaded / totalSize) / 100;
+        var progress = Math.round(1000 * uploaded / totalSize) / 10;
+        console.log("Uploading progress: " + progress);
+        $scope.progress = progress;
     }
 
     function uploadFailed(evt) {
-        alert("There was an error attempting to upload the file.")
+        alert("There was an error attempting to upload a file.");
     }
 
     function uploadCanceled(evt) {
-        alert("The upload has been canceled by the user or the browser dropped the connection.")
+        alert("The upload has been canceled by the user or the browser dropped the connection.");
     }
 });
