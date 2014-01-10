@@ -49,6 +49,9 @@ if ($lastChunk == 1) {
     $_SESSION['galleryFiles'][$fileId] = $photoSaver->getImages();
 }
 
+//TODO: better answer
+echo json_encode(true);
+
 function randomFile() {
     return getcwd() . "/" . $GLOBALS["files_dir"] . StringUtils::generateRandomString(25);
 }

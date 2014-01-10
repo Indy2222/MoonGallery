@@ -18,6 +18,7 @@
  */
 
 require_once 'model/UserLoader.php';
+require_once 'model/Password.php';
 
 class Login {
 
@@ -40,4 +41,46 @@ class Login {
     public function isLoggedIn() {
         return $this->user != null;
     }
+
+    public function login($email, $password) {
+        if ($this->isLoggedIn()) {
+            // cant log in if already is
+            return false;
+        }
+
+        $userId = getUserIdByEmail($email);
+
+        if ($userId != null) {
+            $loader = new UserLoader($userId);
+            $loader->load();
+            $user = $loader->get();
+
+            if ($user != null && $user->getPassword()->test($password)) {
+                $this->user = $user;
+                $_SESSION["user"] = $user->getID();
+            }
+        }
+
+        return $this->isLoggedIn();
+    }
+
+    public function logout() {
+        $this->user = null;
+        unset($_SESSION["user"]);
+    }
+
+    protected function getUserIdByEmail($email) {
+        $id = null;
+
+        $query = mysql_query("SELECT user.id FROM `user` "
+                . "WHERE user.email = " . mysql_real_escape_string($email) . " "
+                . "LIMIT 1;");
+        $row = mysql_fetch_array($row);
+        if ($row != null) {
+            $id = $row["id"];
+        }
+
+        return $id;
+    }
+
 }

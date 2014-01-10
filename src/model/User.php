@@ -48,4 +48,16 @@ class User {
             $this->defaultGroup = $group;
         }
     }
+
+    public function getID() {
+        return $this->id;
+    }
+
+    public function getPassword() {
+        return $this->password;
+    }
+
+    public function getPerson() {
+        return $this->person;
+    }
 }

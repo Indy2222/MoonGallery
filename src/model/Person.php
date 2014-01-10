@@ -28,4 +28,8 @@ class Person {
         $this->alias = $alias;
         $this->fullName = $fullName;
     }
+
+    public function getAlias() {
+        return $this->alias;
+    }
 }

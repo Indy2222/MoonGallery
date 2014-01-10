@@ -17,9 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-//TODO: check if user has rights to upload
-if (isset($_GET["create"])) {
-    require 'services/upload/create.php';
+$email = $_GET["email"];
+$password = $_GET["password"];
+
+if ($login->login($email, $password)) {
+    $person = $login->getUser()->getPerson();
+
+    $responce = array();
+    $responce["alias"] = $person->getAlias();
+
+    echo json_encode($responce);
 } else {
-    require 'services/upload/upload.php';
+    echo json_encode(false);
 }

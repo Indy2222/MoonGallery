@@ -28,6 +28,10 @@ foreach ($_SESSION["galleryFiles"] as $fileId => $files) {
 
 unset($_SESSION["galleryFiles"]);
 
+$responce = array();
+$responce["gallery_id"] = $galleryId;
+echo json_encode($responce);
+
 function savePhoto($galleryId, $name, $files) {
     mysql_query("INSERT INTO `photo` (`gallery_id`, `name`)"
             . " VALUES (" . $galleryId . ", "
