@@ -15,18 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-moonGalleryControllers.controller('PhotoCtrl', ["$scope", "$http", "$routeParams",
-    function($scope, $http, $routeParams) {
+moonGalleryControllers.controller('PhotoCtrl', ["$scope", "$routeParams", "moonGalleryServices",
+    function($scope, $routeParams, services) {
         refreshDetails();
 
         function refreshDetails() {
-            $http.get('service.php?service=photo&id=' + $routeParams.photoId)
-                    .success(function(data) {
-                        // TODO: are data correct?
-                        data = data.service;
-                        $scope.photo = data;
-                    });
+            services.load("photo", {
+                id: $routeParams.photoId
+            }).success(function(data) {
+                // TODO: are data correct?
+                data = data.service;
+                $scope.photo = data;
+            });
         }
     }
 ]);

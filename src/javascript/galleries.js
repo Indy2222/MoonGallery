@@ -15,8 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-moonGalleryControllers.controller('GalleriesCtrl', ["$scope", "$http", "$location",
-    function($scope, $http, $location) {
+moonGalleryControllers.controller('GalleriesCtrl', ["$scope", "$location", "moonGalleryServices",
+    function($scope, $location, services) {
         $scope.galleries = [];
         $scope.refreshGalleries = refreshGalleries;
         $scope.showGallery = showGallery;
@@ -29,13 +29,13 @@ moonGalleryControllers.controller('GalleriesCtrl', ["$scope", "$http", "$locatio
 
         function refreshGalleries(start) {
             start = start ? start : 0;
-            $http.get('service.php?service=galleries&start=' + start).
-                    success(function(data) {
-                        // TODO: are data correct?
-                        data = data.service;
-                        refreshListing(data.count, data.perPage);
-                        $scope.galleries = data.galleries;
-                    });
+
+            services.load("galleries", {start: start}).success(function(data) {
+                // TODO: are data correct?
+                data = data.service;
+                refreshListing(data.count, data.perPage);
+                $scope.galleries = data.galleries;
+            });
         }
 
         function refreshListing(totalCount, onPage) {

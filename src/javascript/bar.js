@@ -1,17 +1,17 @@
-moonGalleryControllers.controller('BarCtrl', ["$scope", "$http", "$location",
-    function($scope, $http, $location) {
-        refreshLogin();
+moonGalleryControllers.controller('BarCtrl', ["$scope", "$location", "moonGalleryServices",
+    function($scope, $location, services) {
+        $scope.signOut = signOut;
 
-        function refreshLogin() {
-            $http.get('service.php?service=login&status=true')
-                    .success(function(data) {
-                        var loggedIn = data.loggedIn;
-                        if (loggedIn) {
-                            $scope.loggin = loggedIn;
-                        } else {
-                            $scope.loggin = null;
-                        }
-                    });
+        services.addListener("loginChange", loginChange);
+
+        function signOut() {
+            services.load("logout").success(function(data) {
+                $location.path("/galleries");
+            });
+        }
+
+        function loginChange(login) {
+            $scope.loggin = login;
         }
     }
 ]);

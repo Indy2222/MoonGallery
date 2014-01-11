@@ -16,8 +16,8 @@
  */
 
 
-moonGalleryControllers.controller('UploaderCtrl', ["$scope", "$http",
-    function($scope, $http) {
+moonGalleryControllers.controller('UploaderCtrl', ["$scope", "moonGalleryServices",
+    function($scope, services) {
 
         var CHUNK_SIZE = 1024 * 1024; // one MiB
         var lastUploadedChunk = 0;
@@ -48,12 +48,13 @@ moonGalleryControllers.controller('UploaderCtrl', ["$scope", "$http",
             finishedCallback = function finished() {
                 finishedCallback = null;
 
-                $http.get("service.php?service=upload&create=" + encodeURIComponent(uploadingGalleryName))
-                        .success(function(data) {
-                            $scope.uploading = false;
-                            $scope.progress = 100;
-                            console.debug("Uploading finished!");
-                        });
+                services.load("upload", {
+                    create: uploadingGalleryName
+                }).success(function(data) {
+                    $scope.uploading = false;
+                    $scope.progress = 100;
+                    console.debug("Uploading finished!");
+                });
             };
 
             uploadFiles();

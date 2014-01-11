@@ -15,8 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-moonGalleryControllers.controller('SignInCtrl', ["$scope", "$http", "$location",
-    function($scope, $http, $location) {
+moonGalleryControllers.controller('SignInCtrl', ["$scope", "$location", "moonGalleryServices",
+    function($scope, $location, services) {
 
     }
 ]);

@@ -19,7 +19,8 @@ var moonGalleryControllers = angular.module('moonGalleryControllers', []);
 
 var moonGallery = angular.module('moonGallery', [
     'ngRoute',
-    'moonGalleryControllers'
+    'moonGalleryControllers',
+    'moonGalleryServices'
 ]);
 
 moonGallery.config(['$routeProvider',

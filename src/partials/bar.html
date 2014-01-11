@@ -2,4 +2,5 @@
     <a href="#/galleries">List of galleries</a>
     <a href="#/upload">Upload gallery</a>
     <a href="#/signin" ng-show="loggin == null">Sign in</a>
+    <a ng-click="signOut()" ng-show="loggin != null">Sign out ({{loggin.alias}})</a>
 </div>
