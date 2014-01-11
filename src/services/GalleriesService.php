@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+require_once 'services/iService.php';
+
 class Gallery {
 
     function __construct($id, $name, $preview) {
@@ -24,6 +26,7 @@ class Gallery {
         $this->name = $name;
         $this->preview = $preview;
     }
+
 }
 
 class Galleries {
@@ -37,25 +40,31 @@ class Galleries {
     public function addGallery($gallery) {
         array_push($this->galleries, $gallery);
     }
+
 }
 
-$query = mysql_query("SELECT count(*) AS count FROM `gallery`;");
-$row = mysql_fetch_array($query);
-$count = $row["count"];
-$perPage = 10;
+class GalleriesService implements iService {
 
-$start = $_GET["start"];
-$query = mysql_query("SELECT gallery.id, gallery.name, entity.data AS preview FROM  `gallery` "
-        . "LEFT JOIN  `photo` ON gallery.id = photo.gallery_id "
-        . "LEFT JOIN  `entity` ON photo.id = entity.photo_id "
-        . "WHERE entity.type = 'preview' "
-        . "GROUP BY gallery.id "
-        . "LIMIT " . mysql_real_escape_string($start). " , " . $perPage);
+    public function process($params) {
+        $query = mysql_query("SELECT count(*) AS count FROM `gallery`;");
+        $row = mysql_fetch_array($query);
+        $count = $row["count"];
+        $perPage = 10;
 
-$galleries = new Galleries($count, $perPage);
-while ($row = mysql_fetch_array($query)) {
-    $gallery = new Gallery($row["id"], $row["name"], $row["preview"]);
-    $galleries->addGallery($gallery);
+        $start = $params["start"];
+        $query = mysql_query("SELECT gallery.id, gallery.name, entity.data AS preview FROM  `gallery` "
+                . "LEFT JOIN  `photo` ON gallery.id = photo.gallery_id "
+                . "LEFT JOIN  `entity` ON photo.id = entity.photo_id "
+                . "WHERE entity.type = 'preview' "
+                . "GROUP BY gallery.id "
+                . "LIMIT " . mysql_real_escape_string($start) . " , " . $perPage);
+
+        $galleries = new Galleries($count, $perPage);
+        while ($row = mysql_fetch_array($query)) {
+            $gallery = new Gallery($row["id"], $row["name"], $row["preview"]);
+            $galleries->addGallery($gallery);
+        }
+
+        return $galleries;
+    }
 }
-
-echo json_encode($galleries);

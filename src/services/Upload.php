@@ -17,9 +17,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-//TODO: check if user has rights to upload
-if (isset($_GET["create"])) {
-    require 'services/upload/create.php';
-} else {
-    require 'services/upload/upload.php';
+require_once 'services/iService.php';
+require_once 'services/upload/Create.php';
+require_once 'services/upload/UploadFile.php';
+
+class Upload implements iService {
+
+    public function process($params) {
+        if (isset($params["create"])) {
+            $service = new Create();
+        } else {
+            $service = new UploadFile();
+        }
+
+        return $service->process($post, $get, $params);
+    }
 }

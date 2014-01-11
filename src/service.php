@@ -22,6 +22,7 @@ session_start();
 require 'config.php';
 require_once 'model/Database.php';
 require_once 'model/Login.php';
+require_once 'services/ServiceLoader.php';
 
 $database = new Database();
 $database->connect();
@@ -29,8 +30,42 @@ $database->connect();
 $login = new Login();
 $login->refresh();
 
-// process requested service
-$service = $_GET["service"];
-include 'services/' . $service . '.php';
+$responce = createResponce();
 
 $database->disconnect();
+
+echo $responce;
+
+function createResponce() {
+    $responce = array();
+
+    $serviceResponce = processService();
+    $responce["service"] = $serviceResponce;
+
+    $login = $GLOBALS["login"];
+    if ($login->isLoggedIn()) {
+        $responce["logged_in"]["alias"] = $login->getUser()->getPerson()->getAlias();
+        $responce["logged_in"]["email"] = $login->getUser()->getEmail();
+    }
+
+    return json_encode($responce);
+}
+
+function processService() {
+    $responce = false;
+    $service = ServiceLoader::getService();
+    $params = array();
+
+    foreach ($_POST as $key => $value) {
+        $params[$key] = $value;
+    }
+    foreach ($_GET as $key => $value) {
+        $params[$key] = $value;
+    }
+
+    if ($service != null) {
+        $responce = $service->process($params);
+    }
+
+    return $responce;
+}

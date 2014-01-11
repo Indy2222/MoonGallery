@@ -32,7 +32,7 @@ moonGalleryControllers.controller('GalleriesCtrl', ["$scope", "$http", "$locatio
             $http.get('service.php?service=galleries&start=' + start).
                     success(function(data) {
                         // TODO: are data correct?
-
+                        data = data.service;
                         refreshListing(data.count, data.perPage);
                         $scope.galleries = data.galleries;
                     });
