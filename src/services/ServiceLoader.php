@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'services/Upload.php';
+require_once 'services/UploadService.php';
 require_once 'services/GalleriesService.php';
 
 class ServiceLoader {
@@ -28,7 +28,7 @@ class ServiceLoader {
 
         switch ($serviceName) {
             case "upload":
-                $service = new Upload();
+                $service = new UploadService();
                 break;
             case "galleries":
                 $service = new GalleriesService();

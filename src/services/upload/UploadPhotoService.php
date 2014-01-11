@@ -21,7 +21,7 @@ require_once 'services/iService.php';
 require_once 'model/PhotoSaver.php';
 require_once 'model/StringUtils.php';
 
-class UploadFile implements iService {
+class UploadPhotoService implements iService {
 
     public function process($params) {
         $fileId = $params["id"];

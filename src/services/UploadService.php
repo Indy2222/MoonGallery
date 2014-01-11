@@ -18,18 +18,18 @@
  */
 
 require_once 'services/iService.php';
-require_once 'services/upload/Create.php';
-require_once 'services/upload/UploadFile.php';
+require_once 'services/upload/CreateGalleryService.php';
+require_once 'services/upload/UploadPhotoService.php';
 
-class Upload implements iService {
+class UploadService implements iService {
 
     public function process($params) {
         if (isset($params["create"])) {
-            $service = new Create();
+            $service = new CreateGalleryService();
         } else {
-            $service = new UploadFile();
+            $service = new UploadPhotoService();
         }
 
-        return $service->process($post, $get, $params);
+        return $service->process($params);
     }
 }

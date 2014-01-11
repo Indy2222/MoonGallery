@@ -19,7 +19,7 @@
 
 require_once 'services/iService.php';
 
-class Create implements iService {
+class CreateGalleryService implements iService {
 
     public function process($params) {
         $galleryName = $params["create"];
