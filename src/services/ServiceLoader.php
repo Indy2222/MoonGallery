@@ -20,6 +20,7 @@
 require_once 'services/UploadService.php';
 require_once 'services/GalleriesService.php';
 require_once 'services/GalleryService.php';
+require_once 'services/PhotoService.php';
 
 class ServiceLoader {
 
@@ -36,6 +37,9 @@ class ServiceLoader {
                 break;
             case "gallery":
                 $service = new GalleryService();
+                break;
+            case "photo":
+                $service = new PhotoService();
                 break;
         }
 

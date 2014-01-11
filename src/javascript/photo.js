@@ -24,6 +24,7 @@ moonGalleryControllers.controller('PhotoCtrl', ["$scope", "$http", "$routeParams
             $http.get('service.php?service=photo&id=' + $routeParams.photoId)
                     .success(function(data) {
                         // TODO: are data correct?
+                        data = data.service;
                         $scope.photo = data;
                     });
         }
