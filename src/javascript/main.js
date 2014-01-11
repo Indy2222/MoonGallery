@@ -41,6 +41,10 @@ moonGallery.config(['$routeProvider',
                     templateUrl: 'partials/uploader.html',
                     controller: 'UploaderCtrl'
                 }).
+                when('/signin', {
+                    templateUrl: 'partials/signin.html',
+                    controller: 'SignInCtrl'
+                }).
                 otherwise({
                     redirectTo: '/galleries'
                 });

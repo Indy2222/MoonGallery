@@ -25,10 +25,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <!-- main of AngularJS -->
         <script src="javascript/main.js"></script>
         <!-- AngularJS controlers -->
+        <script src="javascript/bar.js"></script>
         <script src="javascript/uploader.js"></script>
         <script src="javascript/galleries.js"></script>
         <script src="javascript/gallery.js"></script>
         <script src="javascript/photo.js"></script>
+        <script src="javascript/signin.js"></script>
 
 
         <title>Moon Gallery</title><!-- TODO: configurable title -->
@@ -36,10 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <link rel="stylesheet" type="text/css" href="css/main.css">
     </head>
     <body>
-        <div class="top_bar">
-            <a href="#/galleries">List of galleries</a>
-            <a href="#/upload">Upload gallery</a>
-        </div>
+        <div class="top_bar" ng-include="'partials/bar.html'"></div>
         <div class="content">
             <div ng-view></div>
         </div>

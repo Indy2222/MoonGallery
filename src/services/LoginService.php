@@ -24,10 +24,13 @@ class LoginService implements iService {
     public function process($params) {
         global $login;
 
+        $status = $params["status"];
         $email = $params["email"];
         $password = $params["password"];
 
-        if ($login->login($email, $password)) {
+        if ($status) {
+            return null;
+        } else if ($login->login($email, $password)) {
             $person = $login->getUser()->getPerson();
 
             $responce = array();

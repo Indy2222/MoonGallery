@@ -44,8 +44,8 @@ function createResponce() {
 
     $login = $GLOBALS["login"];
     if ($login->isLoggedIn()) {
-        $responce["logged_in"]["alias"] = $login->getUser()->getPerson()->getAlias();
-        $responce["logged_in"]["email"] = $login->getUser()->getEmail();
+        $responce["loggedIn"]["alias"] = $login->getUser()->getPerson()->getAlias();
+        $responce["loggedIn"]["email"] = $login->getUser()->getEmail();
     }
 
     return json_encode($responce);

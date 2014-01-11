@@ -73,7 +73,7 @@ class UserCreator {
         $groups = $this->user->getGroups();
 
         foreach ($groups as $group) {
-            $default = $group == $this->user->getDefaultGroup() ? 1 :  0;
+            $default = $group == $this->user->getDefaultGroup() ? 1 : 0;
             mysql_query("INSERT INTO `user_in_group` (user_id, group_id, is_default) "
                     . "VALUES (" . $userId . ", " . $group->getID() . ", " . $default . ");");
 
