@@ -68,8 +68,13 @@ class Login {
     }
 
     public function logout() {
-        $this->user = null;
-        unset($_SESSION["user"]);
+        if ($this->isLoggedIn()) {
+            $this->user = null;
+            unset($_SESSION["user"]);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     protected function getUserIdByEmail($email) {

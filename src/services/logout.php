@@ -17,5 +17,4 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-$login->logout();
-echo json_encode(true);
+echo json_encode($login->logout());
