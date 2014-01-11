@@ -54,5 +54,4 @@ class Password {
     protected function generateSalt() {
         return StringUtils::generateRandomString(15);
     }
-
 }

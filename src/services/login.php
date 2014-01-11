@@ -24,8 +24,13 @@ if ($login->login($email, $password)) {
     $person = $login->getUser()->getPerson();
 
     $responce = array();
+    $responce["email"] = $login->getUser()->getEmail();
     $responce["alias"] = $person->getAlias();
 
+    echo json_encode($responce);
+} else if($login->isLoggedIn()) {
+    $responce = array();
+    $responce["error"] = "already-logged-in";
     echo json_encode($responce);
 } else {
     echo json_encode(false);

@@ -25,6 +25,7 @@ class Login {
     protected $user = null;
 
     public function __construct() {
+
     }
 
     public function refresh() {
@@ -47,13 +48,12 @@ class Login {
 
     public function login($email, $password) {
         if ($this->isLoggedIn()) {
-            // cant log in if already is
             return false;
         }
 
-        $userId = getUserIdByEmail($email);
+        $userId = $this->getUserIdByEmail($email);
 
-        if ($userId != null) {
+        if ($userId != -1) {
             $loader = new UserLoader($userId);
             $loader->load();
             $user = $loader->get();
@@ -73,13 +73,13 @@ class Login {
     }
 
     protected function getUserIdByEmail($email) {
-        $id = null;
+        $id = -1;
 
-        $query = mysql_query("SELECT user.id FROM `user` "
-                . "WHERE user.email = " . mysql_real_escape_string($email) . " "
+        $query = mysql_query("SELECT id FROM `user` "
+                . "WHERE email = '" . mysql_real_escape_string($email) . "' "
                 . "LIMIT 1;");
-        $row = mysql_fetch_array($row);
-        if ($row != null) {
+
+        if (($row = mysql_fetch_array($query)) != null) {
             $id = $row["id"];
         }
 

@@ -39,8 +39,9 @@ $newUser->setPerson($person);
 $group = new Group($DEFAULT_GROUP_ID, "");
 $newUser->addGroup($group, true);
 if (isThisFirstRegistration()) {
+    // first registered user is considered as admin
     $group = new Group(Group::$GROUP_ID_ADMIN, "");
-    $newUser->addGroup($group);
+    $newUser->addGroup($group, true);
 }
 
 $userCreator = new UserCreator($newUser, $password);

@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+require_once 'model/User.php';
 require_once 'model/Password.php';
 require_once 'model/Person.php';
 require_once 'model/Group.php';
@@ -27,7 +28,7 @@ class UserLoader {
     protected $user;
 
     public function __construct($id) {
-        $this->id = id;
+        $this->id = $id;
     }
 
     public function load() {
@@ -42,22 +43,20 @@ class UserLoader {
     protected function loadUser() {
         $query = mysql_query("SELECT "
                 . "user.password, user.password_salt, user.id AS user_id, "
-                . "user.email AS user_email, person.id AS person_id,"
-                . "person.full_name, person.alias"
+                . "user.email AS user_email, person.id AS person_id, "
+                . "person.full_name, person.alias "
                 . "FROM `user` "
                 . "LEFT JOIN `person` ON person.id = user.person_id "
-                . "WHERE user.id = " . mysql_real_escape_string($this->id) . " "
+                . "WHERE user.id = " . $this->id . " "
                 . "GROUP BY user.id "
                 . "LIMIT 1;");
 
-        $row = mysql_fetch_array($query);
-        if ($row != null) {
+        if (($row = mysql_fetch_array($query)) != null) {
             $password = new Password();
             $password->initFromHash($row["password"], $row["password_salt"]);
 
             $this->user = new User($row["user_id"], $row["user_email"], $password);
-
-            $peson = new Person($row["person_id"], $row["full_name"], $row["alias"]);
+            $person = new Person($row["person_id"], $row["full_name"], $row["alias"]);
             $this->user->setPerson($person);
         }
     }
