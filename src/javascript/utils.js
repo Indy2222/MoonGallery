@@ -1,5 +1,3 @@
-<?php
-
 /*
  * Copyright (C) 2014 Martin Indra <martin.indra at mgn.cz>
  *
@@ -17,25 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Photo {
-    public function __construct($id, $name, $preview) {
-        $this->id = $id;
-        $this->name = $name;
-        $this->preview = $preview;
+var mg = mg || {};
+mg.utils = mg.utils || {};
+
+mg.utils.listing = function refreshListing(totalCount, onPage) {
+    var listing = null;
+
+    if (totalCount > onPage) {
+        listing = [];
+        for (var i = 0; i < (totalCount / onPage); i++) {
+            listing.push({
+                start: i * onPage,
+                number: i
+            });
+        }
     }
-}
 
-$galleryId = $_GET["gallery"];
-$query = mysql_query("SELECT photo.id, photo.name, entity.data AS preview FROM  `photo` "
-        . "LEFT JOIN  `entity` ON photo.id = entity.photo_id "
-        . "WHERE photo.gallery_id = '" . mysql_real_escape_string($galleryId). "' AND entity.type = 'preview' "
-        . "GROUP BY photo.id "
-        . "LIMIT 0 , 30");
-$photos = array();
-
-while ($row = mysql_fetch_array($query)) {
-    $photo = new Photo($row["id"], $row["name"], $row["preview"]);
-    array_push($photos, $photo);
-}
-
-echo json_encode($photos);
+    return listing;
+};

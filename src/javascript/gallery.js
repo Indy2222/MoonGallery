@@ -15,18 +15,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-moonGalleryControllers.controller('GalleryCtrl', ["$scope", "$http", "$routeParams",
-    function($scope, $http, $routeParams) {
+moonGalleryControllers.controller('GalleryCtrl', ["$scope", "$http", "$routeParams", "$location",
+    function($scope, $http, $routeParams, $location) {
         $scope.photos = [];
+        $scope.showPhoto = showPhoto;
+        $scope.refreshPhotos = refreshPhotos;
+
         refreshPhotos();
 
-        function refreshPhotos() {
-            $http.get('service.php?service=gallery&gallery=' + $routeParams.galleryId)
+        function refreshPhotos(start) {
+            start = start ? start : 0;
+            $http.get('service.php?service=gallery&gallery=' + $routeParams.galleryId + '&start=' + start)
                     .success(function(data) {
                         // TODO: are data correct?
-                        $scope.photos = data;
+                        data = data.service;
+                        refreshListing(data.count, data.perPage);
+                        $scope.photos = data.photos;
                     });
         }
 
+        function showPhoto(photo) {
+            $location.path("/photo/" + photo);
+        }
+
+        function refreshListing(totalCount, onPage) {
+            $scope.listing = mg.utils.listing(totalCount, onPage);
+        }
     }
 ]);

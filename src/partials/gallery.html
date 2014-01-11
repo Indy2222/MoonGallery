@@ -16,10 +16,16 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<div ng-repeat="photo in photos">
-    <a href="#/photo/{{photo.id}}">
-        <img ng-src="{{photo.preview}}" width="20%" alt="{{photo.name}}">
-        <br>
-        {{photo.name}}
-    </a>
+<div class="gallery">
+    <div ng-repeat="photo in photos" ng-click="showPhoto(photo.id)" class="photo">
+
+        <img ng-src="{{photo.preview}}" alt="{{photo.name}}">
+        <div class="name">{{photo.name}}</div>
+
+    </div>
+
+
+    <div ng-show="listing != null" class="listing">
+        <a ng-repeat="page in listing" ng-click="refreshPhotos(page.start)">{{page.number}}</a>
+    </div>
 </div>

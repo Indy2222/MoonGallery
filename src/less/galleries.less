@@ -21,11 +21,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 @import "mixins.less";
 
-.galleries {
+.galleries,
+.gallery {
     text-align: center;
 }
 
-.galleries .gallery {
+.galleries .gallery,
+.gallery .photo {
     display: inline-block;
     width: 240px;
     margin: 10px;
@@ -34,23 +36,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     cursor: pointer;
 }
 
-.galleries .gallery img {
+.galleries .gallery img,
+.gallery .photo img {
     display: block;
     width: 100%;
 }
 
-.galleries .gallery .name {
+.galleries .gallery .name,
+.gallery .photo .name {
     margin-top: 10px;
 }
 
-.galleries .listing {
+.galleries .listing,
+.gallery .listing {
     font-family: MG003;
     margin: 40px;
     font-size: 16pt;
     .dark_color;
 }
 
-.galleries .listing a {
+.galleries .listing a,
+.gallery .listing a {
     margin-left: 10px;
     margin-right: 10px;
     cursor: pointer;

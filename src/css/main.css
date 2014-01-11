@@ -164,12 +164,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 /* line 24, /home/indy/MoonGames/git/MoonGallery/src/less/galleries.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/galleries\.less}line{font-family:\0000324}}
-.galleries {
+.galleries,
+.gallery {
   text-align: center;
 }
-/* line 28, /home/indy/MoonGames/git/MoonGallery/src/less/galleries.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/galleries\.less}line{font-family:\0000328}}
-.galleries .gallery {
+/* line 29, /home/indy/MoonGames/git/MoonGallery/src/less/galleries.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/galleries\.less}line{font-family:\0000329}}
+.galleries .gallery,
+.gallery .photo {
   display: inline-block;
   width: 240px;
   margin: 10px;
@@ -177,42 +179,46 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   text-align: center;
   cursor: pointer;
 }
-/* line 37, /home/indy/MoonGames/git/MoonGallery/src/less/galleries.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/galleries\.less}line{font-family:\0000337}}
-.galleries .gallery img {
+/* line 39, /home/indy/MoonGames/git/MoonGallery/src/less/galleries.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/galleries\.less}line{font-family:\0000339}}
+.galleries .gallery img,
+.gallery .photo img {
   display: block;
   width: 100%;
 }
-/* line 42, /home/indy/MoonGames/git/MoonGallery/src/less/galleries.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/galleries\.less}line{font-family:\0000342}}
-.galleries .gallery .name {
+/* line 45, /home/indy/MoonGames/git/MoonGallery/src/less/galleries.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/galleries\.less}line{font-family:\0000345}}
+.galleries .gallery .name,
+.gallery .photo .name {
   margin-top: 10px;
 }
-/* line 46, /home/indy/MoonGames/git/MoonGallery/src/less/galleries.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/galleries\.less}line{font-family:\0000346}}
-.galleries .listing {
+/* line 50, /home/indy/MoonGames/git/MoonGallery/src/less/galleries.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/galleries\.less}line{font-family:\0000350}}
+.galleries .listing,
+.gallery .listing {
   font-family: MG003;
   margin: 40px;
   font-size: 16pt;
   color: #242424;
 }
-/* line 53, /home/indy/MoonGames/git/MoonGallery/src/less/galleries.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/galleries\.less}line{font-family:\0000353}}
-.galleries .listing a {
+/* line 58, /home/indy/MoonGames/git/MoonGallery/src/less/galleries.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/galleries\.less}line{font-family:\0000358}}
+.galleries .listing a,
+.gallery .listing a {
   margin-left: 10px;
   margin-right: 10px;
   cursor: pointer;
 }
-/* line 29, /home/indy/MoonGames/git/MoonGallery/src/less/main.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/main\.less}line{font-family:\0000329}}
+/* line 31, /home/indy/MoonGames/git/MoonGallery/src/less/main.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/main\.less}line{font-family:\0000331}}
 body {
   background-color: #f6f6f6;
   font-family: MG001;
   margin: 0;
   color: #242424;
 }
-/* line 36, /home/indy/MoonGames/git/MoonGallery/src/less/main.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/main\.less}line{font-family:\0000336}}
+/* line 38, /home/indy/MoonGames/git/MoonGallery/src/less/main.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/indy\/MoonGames\/git\/MoonGallery\/src\/less\/main\.less}line{font-family:\0000338}}
 .content {
   position: fixed;
   top: 40px;

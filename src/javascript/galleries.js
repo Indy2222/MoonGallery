@@ -28,7 +28,7 @@ moonGalleryControllers.controller('GalleriesCtrl', ["$scope", "$http", "$locatio
         }
 
         function refreshGalleries(start) {
-            var start = start ? start : 0;
+            start = start ? start : 0;
             $http.get('service.php?service=galleries&start=' + start).
                     success(function(data) {
                         // TODO: are data correct?
@@ -39,16 +39,6 @@ moonGalleryControllers.controller('GalleriesCtrl', ["$scope", "$http", "$locatio
         }
 
         function refreshListing(totalCount, onPage) {
-            if (totalCount > onPage) {
-                $scope.listing = [];
-                for (var i = 0; i < (totalCount / onPage); i++) {
-                    $scope.listing.push({
-                        start: i * onPage,
-                        number: i
-                    });
-                }
-            } else {
-                $scope.listing = null;
-            }
+            $scope.listing = mg.utils.listing(totalCount, onPage);
         }
     }]);
