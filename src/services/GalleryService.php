@@ -38,7 +38,7 @@ class GalleryService implements iService {
                 . "WHERE photo.gallery_id = " . mysql_real_escape_string($galleryId) . ";");
         $row = mysql_fetch_array($query);
         $count = $row["count"];
-        $perPage = 10;
+        $perPage = 30;
 
         $start = $params["start"];
         $query = mysql_query("SELECT photo.id, photo.name, entity.data AS preview FROM  `photo` "
