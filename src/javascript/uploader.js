@@ -16,126 +16,129 @@
  */
 
 
-moonGalleryControllers.controller('UploaderCtrl', function($scope) {
+moonGalleryControllers.controller('UploaderCtrl', ["$scope", "$http",
+    function($scope, $http) {
 
-    var CHUNK_SIZE = 1024 * 1024; // one MiB
-    var lastUploadedChunk = 0;
-    var lastUploadedFile = 0;
-    var totalSize = 0;
-    var uploaded = 0;
-    var finishedCallback;
-    var uploadingGalleryName;
+        var CHUNK_SIZE = 1024 * 1024; // one MiB
+        var lastUploadedChunk = 0;
+        var lastUploadedFile = 0;
+        var totalSize = 0;
+        var uploaded = 0;
+        var finishedCallback;
+        var uploadingGalleryName;
 
-    $scope.setFiles = function(element) {
-        console.log('files:', element.files);
-        // Turn the FileList object into an Array
-        $scope.files = [];
-        for (var i = 0; i < element.files.length; i++) {
-            $scope.files.push(element.files[i]);
-        }
-    };
-
-    $scope.uploadGallery = function() {
-        if ($scope.uploading) {
-            // cant upload two batches simultaneously
-            return;
-        }
-
-        $scope.uploading = true;
-        uploadingGalleryName = $scope.gallery.name;
-
-        finishedCallback = function finished() {
-            finishedCallback = null;
-
-            var xhr = new XMLHttpRequest();
-
-            xhr.addEventListener("load", function() {
-                $scope.uploading = false;
-                console.debug("Uploading finished!");
-            }, false);
-
-            xhr.open("POST", "service.php?service=upload&create=" + encodeURIComponent(uploadingGalleryName));
-            xhr.send(null);
+        $scope.setFiles = function(element) {
+            console.log('files:', element.files);
+            // Turn the FileList object into an Array
+            $scope.files = [];
+            for (var i = 0; i < element.files.length; i++) {
+                $scope.files.push(element.files[i]);
+            }
         };
 
-        uploadFiles();
-    };
+        $scope.uploadGallery = function() {
+            if ($scope.uploading) {
+                // cant upload two batches simultaneously
+                return;
+            }
 
-    function uploadFiles() {
-        $scope.gallery = {
-            files: "",
-            name: ""
+            $scope.uploading = true;
+            uploadingGalleryName = $scope.gallery.name;
+
+            finishedCallback = function finished() {
+                finishedCallback = null;
+
+                $http.get("service.php?service=upload&create=" + encodeURIComponent(uploadingGalleryName))
+                        .success(function(data) {
+                            $scope.uploading = false;
+                            $scope.progress = 100;
+                            console.debug("Uploading finished!");
+                        });
+            };
+
+            uploadFiles();
         };
 
-        totalSize = 0;
-        uploaded = 0;
-        lastUploadedChunk = 0;
-        lastUploadedFile = 0;
-        for (var i in $scope.files) {
-            totalSize += $scope.files[i].size;
-        }
+        function uploadFiles() {
+            $scope.gallery = {
+                files: "",
+                name: ""
+            };
 
-        uploadNext();
-    }
-
-    function uploadNext() {
-        var file = $scope.files[lastUploadedFile];
-        var start = CHUNK_SIZE * lastUploadedChunk;
-
-        if (start >= file.size) {
-            file = null;
-            lastUploadedFile++;
+            totalSize = 0;
+            uploaded = 0;
             lastUploadedChunk = 0;
-            start = 0;
+            lastUploadedFile = 0;
+            for (var i in $scope.files) {
+                totalSize += $scope.files[i].size;
+            }
 
-            if (lastUploadedFile < $scope.files.length) {
-                var file = $scope.files[lastUploadedFile];
-            } else {
-                finishedCallback && finishedCallback();
+            uploadNext();
+        }
+
+        function uploadNext() {
+            var file = $scope.files[lastUploadedFile];
+            var start = CHUNK_SIZE * lastUploadedChunk;
+
+            if (start >= file.size) {
+                file = null;
+                lastUploadedFile++;
+                lastUploadedChunk = 0;
+                start = 0;
+
+                if (lastUploadedFile < $scope.files.length) {
+                    var file = $scope.files[lastUploadedFile];
+                } else {
+                    finishedCallback && finishedCallback();
+                }
+            }
+
+            updateProgress();
+
+            if (file != null) {
+                var chunk = file.slice(start, start + CHUNK_SIZE);
+                uploadChunk(chunk, file.name, start, file.size);
+                lastUploadedChunk++;
             }
         }
 
-        updateProgress();
+        function uploadChunk(chunk, fileId, start, size) {
+            var formData = new FormData();
+            formData.append("file", chunk);
 
-        if (file != null) {
-            var chunk = file.slice(start, start + CHUNK_SIZE);
-            uploadChunk(chunk, file.name, start, file.size);
-            lastUploadedChunk++;
+            var xhr = new XMLHttpRequest();
+
+            xhr.addEventListener("load", uploadNext, false);
+            xhr.addEventListener("error", uploadFailed, false);
+            xhr.addEventListener("abort", uploadCanceled, false);
+            xhr.open("POST", "service.php?service=upload&id="
+                    + encodeURIComponent(fileId) + "&start=" + start + "&size=" + size);
+            xhr.send(formData);
         }
-    }
 
-    function uploadChunk(chunk, fileId, start, size) {
-        var formData = new FormData();
-        formData.append("file", chunk);
+        function updateProgress() {
+            uploaded = 0;
 
-        var xhr = new XMLHttpRequest();
+            for (var i = 0; i < lastUploadedFile && i < $scope.files.length; i++) {
+                uploaded += $scope.files[i].size;
+            }
+            uploaded += lastUploadedChunk * CHUNK_SIZE;
 
-        xhr.addEventListener("load", uploadNext, false);
-        xhr.addEventListener("error", uploadFailed, false);
-        xhr.addEventListener("abort", uploadCanceled, false);
-        xhr.open("POST", "service.php?service=upload&id="
-                + encodeURIComponent(fileId) + "&start=" + start + "&size=" + size);
-        xhr.send(formData);
-    }
+            // -5% because after upload gallery has to be created and written to database
+            var progress = Math.round(1000 * uploaded / totalSize) / 10 - 5;
+            console.log("Uploading progress: " + progress);
 
-    function updateProgress() {
-        uploaded = 0;
-
-        for (var i = 0; i < lastUploadedFile && i < $scope.files.length; i++) {
-            uploaded += $scope.files[i].size;
+            // update progress is not called from AngularJS
+            $scope.$apply(function() {
+                $scope.progress = progress;
+            });
         }
-        uploaded += lastUploadedChunk * CHUNK_SIZE;
 
-        var progress = Math.round(1000 * uploaded / totalSize) / 10;
-        console.log("Uploading progress: " + progress);
-        $scope.progress = progress;
-    }
+        function uploadFailed(evt) {
+            alert("There was an error attempting to upload a file.");
+        }
 
-    function uploadFailed(evt) {
-        alert("There was an error attempting to upload a file.");
-    }
-
-    function uploadCanceled(evt) {
-        alert("The upload has been canceled by the user or the browser dropped the connection.");
-    }
-});
+        function uploadCanceled(evt) {
+            alert("The upload has been canceled by the user or the browser dropped the connection.");
+        }
+    }]);
