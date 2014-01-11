@@ -24,6 +24,10 @@ class Password {
     protected $hash;
     protected $salt;
 
+    public function __construct() {
+
+    }
+
     public function initFromPassword($password) {
         $this->salt = $this->generateSalt();
         $this->hash = hash("sha256", $password . $this->salt);
@@ -39,7 +43,16 @@ class Password {
         return $hash == $this->hash;
     }
 
+    public function getHash() {
+        return $this->hash;
+    }
+
+    public function getSalt() {
+        return $this->salt;
+    }
+
     protected function generateSalt() {
         return StringUtils::generateRandomString(15);
     }
+
 }

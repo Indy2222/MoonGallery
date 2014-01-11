@@ -22,19 +22,65 @@ require_once 'model/User.php';
 require_once 'model/Person.php';
 require_once 'model/Group.php';
 
-$DEFAULT_GROUP_ID = 1; //FIXME
+$DEFAULT_GROUP_ID = Group::$GROUP_ID_ALL;
 
 $email = $_GET["email"];
 $password = $_GET["password"];
 $fullName = $_GET["full_name"];
 $alias = $_GET["alias"];
 
-$newUser = new User(0, $email, $password);
+$passwordObject = new Password();
+$passwordObject->initFromPassword($password);
+$newUser = new User(0, $email, $passwordObject);
 $person = new Person(0, $fullName, $alias);
 $newUser->setPerson($person);
+
+
 $group = new Group($DEFAULT_GROUP_ID, "");
 $newUser->addGroup($group, true);
+if (isThisFirstRegistration()) {
+    $group = new Group(Group::$GROUP_ID_ADMIN, "");
+    $newUser->addGroup($group);
+}
 
-$userCreator = new UserCreator($user);
-//TODO: check if data are correct
-$userCreator->save();
+$userCreator = new UserCreator($newUser, $password);
+$check = $userCreator->check();
+
+if ($check == UserCreator::$CHECK_OK) {
+    $userCreator->save();
+    echo json_encode(true);
+} else {
+    $responce = array();
+    $responce["error_code"] = $check;
+
+    switch ($check) {
+        case UserCreator::$ALIAS_IS_WRONG:
+            $responce["error"] = "wrong-alias";
+            break;
+        case UserCreator::$EMAIL_EXISTS:
+            $responce["error"] = "email-exists";
+            break;
+        case UserCreator::$EMAIL_IS_WRONG:
+            $responce["error"] = "wrong-email";
+            break;
+        case UserCreator::$FULL_NAME_IS_WRONG:
+            $responce["error"] = "wrong-full-name";
+            break;
+        case UserCreator::$PASSWORD_TOO_SOFT:
+            $responce["error"] = "password-too-soft";
+            break;
+        case UserCreator::$PASSWORD_IS_WRONG:
+            $responce["error"] = "wrong-password";
+            break;
+        default:
+            $responce["error"] = "unspecified error";
+    }
+
+    echo json_encode($responce);
+}
+
+function isThisFirstRegistration() {
+    $query = mysql_query("SELECT count(*) AS count FROM `user`;");
+    $row = mysql_fetch_array($query);
+    return $row["count"] == 0;
+}

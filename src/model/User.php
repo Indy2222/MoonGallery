@@ -38,6 +38,10 @@ class User {
         $this->password = $password;
     }
 
+    public function setID($id) {
+        $this->id = $id;
+    }
+
     public function setPerson($person) {
         $this->person = $person;
     }
@@ -47,6 +51,14 @@ class User {
         if ($default) {
             $this->defaultGroup = $group;
         }
+    }
+
+    public function getGroups() {
+        return $this->groups;
+    }
+
+    public function getDefaultGroup() {
+        return $this->defaultGroup;
     }
 
     public function getID() {
@@ -59,5 +71,9 @@ class User {
 
     public function getPerson() {
         return $this->person;
+    }
+
+    public function getEmail() {
+        return $this->email;
     }
 }

@@ -65,13 +65,13 @@ class UserLoader {
     protected function loadGroups() {
         if ($this->user != null) {
             $query = mysql_query("SELECT "
-                    . "user_in_group.default, group.name, group.id "
+                    . "user_in_group.is_default, group.name, group.id "
                     . "FROM `user_in_group`, `group` "
                     . "WHERE user_in_group.user_id = " . mysql_real_escape_string($this->id) . " "
                     . "AND user_in_group.group_id = group.id;");
 
             while (($row = mysql_fetch_array($query)) != null) {
-                $default = $row["default"];
+                $default = $row["is_default"];
                 $group = new Group($row["id"], $row["name"]);
                 $this->user->addGroup($group, $default);
             }

@@ -24,6 +24,9 @@ class Login {
 
     protected $user = null;
 
+    public function __construct() {
+    }
+
     public function refresh() {
         if (isset($_SESSION["user"])) {
             $userLoader = new UserLoader($_SESSION["user"]);

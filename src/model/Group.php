@@ -19,6 +19,8 @@
 
 class Group {
 
+    public static $GROUP_ID_ALL = 1;
+    public static $GROUP_ID_ADMIN = 2;
     protected $id;
     protected $name;
 
@@ -27,4 +29,15 @@ class Group {
         $this->name = $name;
     }
 
+    public function setName($name) {
+        $this->name = $name;
+    }
+
+    public function getID() {
+        return $this->id;
+    }
+
+    public function getName() {
+        return $this->name;
+    }
 }

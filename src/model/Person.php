@@ -24,12 +24,28 @@ class Person {
     protected $alias;
 
     public function __construct($id, $fullName, $alias) {
+        if (!isset($alias) || strlen($alias) == 0) {
+            $alias = $fullName;
+        }
+
         $this->id = $id;
         $this->alias = $alias;
         $this->fullName = $fullName;
     }
 
+    public function setID($id) {
+        $this->id = $id;
+    }
+
+    public function getID() {
+        return $this->id;
+    }
+
     public function getAlias() {
         return $this->alias;
+    }
+
+    public function getFullName() {
+        return $this->fullName;
     }
 }
