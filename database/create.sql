@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 09, 2014 at 01:27 PM
+-- Generation Time: Jan 11, 2014 at 10:44 PM
 -- Server version: 5.5.34-0ubuntu0.13.10.1
 -- PHP Version: 5.5.3-1ubuntu2.1
 
@@ -32,8 +32,7 @@ CREATE TABLE IF NOT EXISTS `entity` (
   `data` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'file name',
   `type` enum('thumbnail','preview','normal','full') CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'normal',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=837 ;
-
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1191 ;
 
 -- --------------------------------------------------------
 
@@ -49,8 +48,7 @@ CREATE TABLE IF NOT EXISTS `gallery` (
   `group_id` int(8) NOT NULL COMMENT 'owner group ID',
   `rights_id` int(8) NOT NULL COMMENT 'foreign key to rights',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=128 ;
-
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=131 ;
 
 -- --------------------------------------------------------
 
@@ -83,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `person` (
   `full_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
 
@@ -97,8 +95,7 @@ CREATE TABLE IF NOT EXISTS `photo` (
   `gallery_id` int(8) NOT NULL,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=328 ;
-
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=446 ;
 
 -- --------------------------------------------------------
 
@@ -123,11 +120,11 @@ CREATE TABLE IF NOT EXISTS `rights` (
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `person_id` int(8) NOT NULL,
-  `email` int(11) NOT NULL,
-  `password` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'Base64 coded SHA-256 hash of the salted passowrd',
+  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `password` varchar(80) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'Base64 coded SHA-256 hash of the salted passowrd',
   `password_salt` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
 
@@ -136,10 +133,12 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 CREATE TABLE IF NOT EXISTS `user_in_group` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `user_id` int(8) NOT NULL,
   `group_id` int(8) NOT NULL,
-  `default` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `is_default` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
