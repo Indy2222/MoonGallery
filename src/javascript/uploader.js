@@ -89,7 +89,7 @@ moonGalleryControllers.controller('UploaderCtrl', ["$scope", "$http",
                 if (lastUploadedFile < $scope.files.length) {
                     var file = $scope.files[lastUploadedFile];
                 } else {
-                    finishedCallback && finishedCallback();
+                    finishedCallback && $scope.$apply(finishedCallback);
                 }
             }
 
@@ -125,7 +125,7 @@ moonGalleryControllers.controller('UploaderCtrl', ["$scope", "$http",
             uploaded += lastUploadedChunk * CHUNK_SIZE;
 
             // -10% because after upload gallery has to be created and written to database
-            var progress = Math.round(1000 * (uploaded / totalSize - 0.1)) / 10;
+            var progress = Math.round(0.9 * 1000 * uploaded / totalSize) / 10;
             console.log("Uploading progress: " + progress);
 
             // update progress is not called from AngularJS
