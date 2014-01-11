@@ -74,7 +74,8 @@ moonGalleryControllers.controller('UploaderCtrl', ["$scope", "moonGalleryService
                 totalSize += $scope.files[i].size;
             }
 
-            uploadNext();
+            // do it asynchronously (to AngularJS) always
+            window.setTimeout(uploadNext, 0);
         }
 
         function uploadNext() {
