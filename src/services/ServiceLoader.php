@@ -21,6 +21,9 @@ require_once 'services/UploadService.php';
 require_once 'services/GalleriesService.php';
 require_once 'services/GalleryService.php';
 require_once 'services/PhotoService.php';
+require_once 'services/LogoutService.php';
+require_once 'services/LoginService.php';
+require_once 'services/RegisterService.php';
 
 class ServiceLoader {
 
@@ -29,6 +32,9 @@ class ServiceLoader {
         $service = null;
 
         switch ($serviceName) {
+            case "logout":
+                $service = new LogoutService();
+                break;
             case "upload":
                 $service = new UploadService();
                 break;
@@ -41,9 +47,14 @@ class ServiceLoader {
             case "photo":
                 $service = new PhotoService();
                 break;
+            case "login":
+                $service = new LoginService();
+                break;
+            case "register":
+                $service = new RegisterService();
+                break;
         }
 
         return $service;
     }
-
 }

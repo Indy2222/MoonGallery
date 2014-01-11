@@ -17,21 +17,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-$email = $_GET["email"];
-$password = $_GET["password"];
+require_once 'services/iService.php';
 
-if ($login->login($email, $password)) {
-    $person = $login->getUser()->getPerson();
+class LoginService implements iService {
 
-    $responce = array();
-    $responce["email"] = $login->getUser()->getEmail();
-    $responce["alias"] = $person->getAlias();
+    public function process($params) {
+        global $login;
 
-    echo json_encode($responce);
-} else if($login->isLoggedIn()) {
-    $responce = array();
-    $responce["error"] = "already-logged-in";
-    echo json_encode($responce);
-} else {
-    echo json_encode(false);
+        $email = $params["email"];
+        $password = $params["password"];
+
+        if ($login->login($email, $password)) {
+            $person = $login->getUser()->getPerson();
+
+            $responce = array();
+            $responce["email"] = $login->getUser()->getEmail();
+            $responce["alias"] = $person->getAlias();
+
+            return $responce;
+        } else if ($login->isLoggedIn()) {
+            $responce = array();
+            $responce["error"] = "already-logged-in";
+            return $responce;
+        } else {
+            return false;
+        }
+    }
+
 }

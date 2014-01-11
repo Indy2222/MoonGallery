@@ -17,4 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-echo json_encode($login->logout());
+require_once 'services/iService.php';
+
+class LogoutService implements iService {
+
+    public function process($params) {
+        global $login;
+        return $login->logout();
+    }
+
+}
