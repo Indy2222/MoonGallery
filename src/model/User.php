@@ -26,11 +26,9 @@ class User {
     protected $id;
     protected $email;
     protected $password;
-
     protected $person;
     protected $defaultGroup;
     protected $groups = [];
-
 
     public function __construct($id, $email, $password) {
         $this->id = $id;
@@ -61,6 +59,16 @@ class User {
         return $this->defaultGroup;
     }
 
+    public function getGroup($id) {
+        foreach ($this->groups as $group) {
+            if ($group->getID() == $id) {
+                return $group;
+            }
+        }
+
+        return null;
+    }
+
     public function getID() {
         return $this->id;
     }
@@ -76,4 +84,5 @@ class User {
     public function getEmail() {
         return $this->email;
     }
+
 }

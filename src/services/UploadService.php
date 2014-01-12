@@ -24,6 +24,10 @@ require_once 'services/upload/UploadPhotoService.php';
 class UploadService implements iService {
 
     public function process($params) {
+        if (!UploadService::canUpload()) {
+            return false;
+        }
+
         if (isset($params["create"])) {
             $service = new CreateGalleryService();
         } else {
@@ -31,5 +35,10 @@ class UploadService implements iService {
         }
 
         return $service->process($params);
+    }
+
+    public static function canUpload() {
+        global $login;
+        return $login->isLoggedIn() && $login->getUser()->getGroup(Group::$GROUP_ID_ADMIN) != null;
     }
 }

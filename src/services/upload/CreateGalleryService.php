@@ -22,9 +22,15 @@ require_once 'services/iService.php';
 class CreateGalleryService implements iService {
 
     public function process($params) {
+        global $login;
+
         $galleryName = $params["create"];
 
-        mysql_query("INSERT INTO `gallery` (`name`) VALUES ('" . mysql_real_escape_string($galleryName) . "');");
+        mysql_query("INSERT INTO `gallery` (`owner`, `name`) "
+                . "VALUES ("
+                . "" . $login->getUser()->getID() . ", "
+                . "'" . mysql_real_escape_string($galleryName) . "'"
+                . ");");
         $galleryId = mysql_insert_id();
 
         foreach ($_SESSION["galleryFiles"] as $fileId => $files) {

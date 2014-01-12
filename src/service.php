@@ -23,6 +23,7 @@ require 'config.php';
 require_once 'model/Database.php';
 require_once 'model/Login.php';
 require_once 'services/ServiceLoader.php';
+require_once 'services/UploadService.php';
 
 $database = new Database();
 $database->connect();
@@ -46,6 +47,10 @@ function createResponce() {
     if ($login->isLoggedIn()) {
         $responce["loggedIn"]["alias"] = $login->getUser()->getPerson()->getAlias();
         $responce["loggedIn"]["email"] = $login->getUser()->getEmail();
+
+        //TODO: move it elsewhere
+        $responce["loggedIn"]["rights"] = array();
+        $responce["loggedIn"]["rights"]["upload"] = UploadService::canUpload();
     }
 
     return json_encode($responce);
