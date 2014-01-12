@@ -26,7 +26,7 @@ class UserCreator {
     public static $EMAIL_IS_WRONG = 4;
     public static $FULL_NAME_IS_WRONG = 5;
     public static $ALIAS_IS_WRONG = 6;
-    public static $REGEX_PASSWORD = "/[\w-\.]+/";
+    public static $REGEX_PASSWORD = "/^[\w-\.]+$/";
     public static $REGEX_EMAIL = "/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/";
     public static $REGEX_FULL_NAME = "/^([a-zA-Z]+(\.)?\s)*[a-zA-Z]+$/"; // TODO: add support for different alphabets
     public static $REGEX_ALIAS = "/^\S+(([\S\s]*\S+)|$)$/"; // has to include full name!

@@ -75,7 +75,7 @@ class RegisterService implements iService {
                     $responce["error"] = "wrong-password";
                     break;
                 default:
-                    $responce["error"] = "unspecified error";
+                    $responce["error"] = "unspecified-error";
             }
 
             return $responce;

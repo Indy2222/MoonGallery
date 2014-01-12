@@ -1,0 +1,16 @@
+<div ng-show="!registered">
+    There is bug in AngularJS or Google Chrome, that Chrome doesn't trigger any event when auto-filling a form.
+    So if the following form has been auto-filled, do some changes to make it "filled"!<br>
+
+
+    <div class="error" ng-show="error != null">{{error}}</div>
+    <form ng-submit="signUp()">
+        Email*: <input type="text" name="email" required pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" ng-model="email"><br>
+        Full name*: <input type="text" name="full_name" required pattern="^([a-zA-Z]+(\.)?\s)*[a-zA-Z]+$" ng-model="fullName"><br>
+        Alias: <input type="text" name="alias" pattern="^\S+(([\S\s]*\S+)|$)$" ng-model="alias"><br>
+        Password*: <input type="password" name="password" required pattern="^[\w-\.]+$" ng-model="password">
+        <input type="submit" value="Sign up">
+    </form>
+</div>
+
+<div ng-show="registered">You have been successfully registered.</div>
