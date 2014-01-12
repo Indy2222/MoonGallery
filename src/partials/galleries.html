@@ -18,14 +18,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <div class="galleries">
     <div ng-repeat="gallery in galleries" ng-click="showGallery(gallery.id)" class="gallery">
-
-        <img ng-src="{{gallery.preview}}" alt="{{gallery.name}}">
         <div class="name">{{gallery.name}}</div>
-
+        <img ng-src="{{gallery.preview}}" alt="{{gallery.name}}">
     </div>
 
 
     <div ng-show="listing != null" class="listing">
-        <a ng-repeat="page in listing" ng-click="refreshGalleries(page.start)">{{page.number}}</a>
+        <a ng-show="listing.previous != null" ng-click="refreshGalleries(listing.previous.start)">&lt;</a>
+        <a ng-repeat="page in listing.pages" ng-click="refreshGalleries(page.start)" ng-class="page.current == true ? 'bold' : ''">{{page.number}}</a>
+        <a ng-show="listing.next != null" ng-click="refreshGalleries(listing.next.start)">&gt;</a>
     </div>
 </div>

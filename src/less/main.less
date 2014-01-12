@@ -48,3 +48,38 @@ body {
     .cursor_pointer;
 }
 
+.form,
+.inform {
+    margin-top: 100px;
+    text-align: center;
+}
+
+.form .input_title {
+    display: inline-block;
+    width: 150px;
+    padding-right: 10px;
+    text-align: right;
+    margin-left: -160px;
+}
+
+.form .input_title:after {
+    content: ":";
+}
+
+.form .input_title.required:after {
+    content: "*:";
+}
+
+.form div {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.form .errors {
+    height: 25px;
+    color: red;
+}
+
+.form input {
+    width: 200px;
+}

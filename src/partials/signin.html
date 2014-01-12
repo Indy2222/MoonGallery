@@ -1,10 +1,16 @@
 There is bug in AngularJS or Google Chrome, that Chrome doesn't trigger any event when auto-filling a form.
 So if the following form has been auto-filled, do some changes to make it "filled"!<br>
 
-<div class="error" ng-show="error">E-mail or password was invalid!</div>
-<form ng-submit="signIn()">
-    Email: <input type="text" name="email" required ng-model="email"><br>
-    Password: <input type="password" name="password" required ng-model="password">
-    <input type="submit" value="Sign in">
-</form>
-<div>Don't have account yet? <a href="#/signup">Sing up</a> now.</div>
+<div class="form">
+    <div class="errors">
+        <span ng-show="error">E-mail or password was invalid!</span>
+    </div>
+
+    <form ng-submit="signIn()">
+        <span class="input_title">Email</span> <input type="text" name="email" required ng-model="email"><br>
+        <span class="input_title">Password</span> <input type="password" name="password" required ng-model="password"><br>
+        <input type="submit" value="Sign in" class="no_title">
+    </form>
+
+    <div>Don't have account yet? <a href="#/signup">Sing up</a> now.</div>
+</div>

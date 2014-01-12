@@ -1,6 +1,6 @@
-<div ng-controller="BarCtrl">
-    <a href="#/galleries">List of galleries</a>
-    <a href="#/upload" ng-show="loggin != null && loggin.rights.upload">Upload gallery</a>
-    <a href="#/signin" ng-show="loggin == null">Sign in</a>
-    <a ng-click="signOut()" ng-show="loggin != null">Sign out ({{loggin.alias}})</a>
+<div ng-controller="BarCtrl" class="top_bar_content">
+    <a href="#/galleries">GALLERIES</a>
+    <a href="#/upload" ng-show="loggin != null && loggin.rights.upload">UPLOAD</a>
+    <a href="#/signin" ng-show="loggin == null">SIGN IN</a>
+    <a ng-click="signOut()" ng-show="loggin != null">SIGN OUT ({{loggin.alias}})</a>
 </div>

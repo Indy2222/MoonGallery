@@ -33,12 +33,12 @@ moonGalleryControllers.controller('GalleriesCtrl', ["$scope", "$location", "moon
             services.load("galleries", {start: start}).success(function(data) {
                 // TODO: are data correct?
                 data = data.service;
-                refreshListing(data.count, data.perPage);
+                refreshListing(start, data.count, data.perPage);
                 $scope.galleries = data.galleries;
             });
         }
 
-        function refreshListing(totalCount, onPage) {
-            $scope.listing = mg.utils.listing(totalCount, onPage);
+        function refreshListing(start, totalCount, onPage) {
+            $scope.listing = mg.utils.listing(start, totalCount, onPage);
         }
     }]);

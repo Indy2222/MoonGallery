@@ -18,16 +18,33 @@
 var mg = mg || {};
 mg.utils = mg.utils || {};
 
-mg.utils.listing = function refreshListing(totalCount, onPage) {
-    var listing = null;
+mg.utils.listing = function refreshListing(start, totalCount, onPage) {
+    var listing = null,
+        page,
+        current;
 
     if (totalCount > onPage) {
-        listing = [];
+        listing = {
+            pages: []
+        };
         for (var i = 0; i < (totalCount / onPage); i++) {
-            listing.push({
+            page = {
                 start: i * onPage,
                 number: i
-            });
+            };
+            listing.pages.push(page);
+
+            if (page.start <= start && (page.start + onPage) > start) {
+                current = i;
+                page.current = true;
+            }
+        }
+
+        if (current > 0) {
+            listing.previous = listing.pages[current - 1];
+        }
+        if (current < (listing.pages.length - 1)) {
+            listing.next = listing.pages[current + 1];
         }
     }
 

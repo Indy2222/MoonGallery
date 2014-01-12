@@ -2,15 +2,19 @@
     There is bug in AngularJS or Google Chrome, that Chrome doesn't trigger any event when auto-filling a form.
     So if the following form has been auto-filled, do some changes to make it "filled"!<br>
 
+    <div class="form">
+        <div class="errors">
+            <span ng-show="error != null">{{error}}</span>
+        </div>
 
-    <div class="error" ng-show="error != null">{{error}}</div>
-    <form ng-submit="signUp()">
-        Email*: <input type="text" name="email" required pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" ng-model="email"><br>
-        Full name*: <input type="text" name="full_name" required pattern="^([a-zA-Z]+(\.)?\s)*[a-zA-Z]+$" ng-model="fullName"><br>
-        Alias: <input type="text" name="alias" pattern="^\S+(([\S\s]*\S+)|$)$" ng-model="alias"><br>
-        Password*: <input type="password" name="password" required pattern="^[\w-\.]+$" ng-model="password">
-        <input type="submit" value="Sign up">
-    </form>
+        <form ng-submit="signUp()">
+            <span class="input_title required">Email</span> <input type="text" name="email" required pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" ng-model="email"><br>
+            <span class="input_title required">Full name</span> <input type="text" name="full_name" required pattern="^([a-zA-Z]+(\.)?\s)*[a-zA-Z]+$" ng-model="fullName"><br>
+            <span class="input_title">Alias</span> <input type="text" name="alias" pattern="^\S+(([\S\s]*\S+)|$)$" ng-model="alias"><br>
+            <span class="input_title required">Password</span> <input type="password" name="password" required pattern="^[\w-\.]+$" ng-model="password"><br>
+            <input type="submit" value="Sign up">
+        </form>
+    </div>
 </div>
 
-<div ng-show="registered">You have been successfully registered.</div>
+<div ng-show="registered" class="inform">You have been successfully registered.</div>
