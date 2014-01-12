@@ -22,6 +22,9 @@ require_once 'services/iService.php';
 class PhotoService implements iService {
 
     public function process($params) {
+        if (!isset($params["id"])) {
+            return;
+        }
 
         $photoId = $params["id"];
         $photo = null;

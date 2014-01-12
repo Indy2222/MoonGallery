@@ -24,9 +24,9 @@ class LoginService implements iService {
     public function process($params) {
         global $login;
 
-        $status = $params["status"];
-        $email = $params["email"];
-        $password = $params["password"];
+        $status = isset($params["status"]) ? $params["status"] : null;
+        $email = isset($params["email"]) ? $params["email"] : null;
+        $password = isset($params["password"]) ? $params["password"] : null;
 
         if ($status) {
             return null;

@@ -51,7 +51,7 @@ class GalleriesService implements iService {
         $count = $row["count"];
         $perPage = 10;
 
-        $start = $params["start"];
+        $start = isset($params["start"]) ? $params["start"] : 0;
         $query = mysql_query("SELECT gallery.id, gallery.name, entity.data AS preview FROM  `gallery` "
                 . "LEFT JOIN  `photo` ON gallery.id = photo.gallery_id "
                 . "LEFT JOIN  `entity` ON photo.id = entity.photo_id "

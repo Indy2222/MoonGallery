@@ -32,6 +32,10 @@ class Photo {
 class GalleryService implements iService {
 
     public function process($params) {
+        if (!isset($params["gallery"])) {
+            return false;
+        }
+
         $galleryId = $params["gallery"];
 
         $query = mysql_query("SELECT count(*) AS count FROM `photo` "
@@ -40,7 +44,7 @@ class GalleryService implements iService {
         $count = $row["count"];
         $perPage = 30;
 
-        $start = $params["start"];
+        $start = isset($params["start"]) ? $params["start"] : 0;
         $query = mysql_query("SELECT photo.id, photo.name, entity.data AS preview FROM  `photo` "
                 . "LEFT JOIN  `entity` ON photo.id = entity.photo_id "
                 . "WHERE photo.gallery_id = " . mysql_real_escape_string($galleryId) . " AND entity.type = 'preview' "
