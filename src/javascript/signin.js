@@ -17,6 +17,22 @@
 
 moonGalleryControllers.controller('SignInCtrl', ["$scope", "$location", "moonGalleryServices",
     function($scope, $location, services) {
+        $scope.signIn = signIn;
 
+        function signIn() {
+            var password = $scope.password;
+            $scope.password = "";
+
+            services.load("login", {
+                email: $scope.email, //FIXME: undefined in Chrome when autfilled!
+                password: password
+            }).success(function(data) {
+                if (data.service) {
+                    $location.path("/gallery");
+                } else {
+                    $scope.error = true;
+                }
+            });
+        }
     }
 ]);

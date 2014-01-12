@@ -1,1 +1,6 @@
-Sign in
+<div class="error" ng-show="error">E-mail or password was invalid!</div>
+<form ng-submit="signIn()">
+    Email: <input type="text" name="email" required ng-model="email"><br>
+    Password: <input type="password" name="password" required ng-model="password">
+    <input type="submit" value="Sign in">
+</form>
