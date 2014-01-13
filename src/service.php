@@ -26,7 +26,12 @@ require_once 'services/ServiceLoader.php';
 require_once 'services/UploadService.php';
 
 $database = new Database();
-$database->connect();
+try {
+    $database->connect();
+} catch (Exception $e) {
+    echo json_encode(null);
+    return;
+}
 
 $login = new Login();
 $login->refresh();

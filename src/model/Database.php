@@ -25,7 +25,10 @@ class Database {
      * Establishes connection to configured database server and select configured database.
      */
     function connect() {
-        $this->connection = mysql_connect($GLOBALS["db_server"], $GLOBALS["db_user"], $GLOBALS["db_password"]);
+        $this->connection = @mysql_connect($GLOBALS["db_server"], $GLOBALS["db_user"], $GLOBALS["db_password"]);
+        if (!$this->connection) {
+            throw new Exception('MySQL Connection Database Error: ' . mysql_error());
+        }
         mysql_select_db($GLOBALS["db_database_name"]);
     }
 
