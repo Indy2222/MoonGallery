@@ -1,0 +1,69 @@
+Prerequisites
+-------------
+
+ - Apache 2 with mod-php
+ - MySQL server
+
+
+Tools used for instalation
+--------------------------
+
+ - wget
+ - unzip
+ - nano
+ - lessc (http://lesscss.org/)
+
+
+Installation instructions for Moon Gallery
+------------------------------------------
+
+ * Download sources from Git repository.
+
+& wget -O MoonGallery.zip https://github.com/MoonGames/MoonGallery/archive/master.zip
+
+
+ * Extract downloaded archive.
+
+& unzip MoonGallery.zip
+
+
+ * Switch to source directory.
+
+& cd MoonGallery-master/src
+
+
+ * Compile LESS files into CSS.
+
+& mkdir css
+& lessc less/main.less > css/main.css
+
+
+ * Prepare directory for file uploads.
+
+& mkdir files
+& chmod 777 files
+
+
+ * Creates user and database in MySQL. Use proper user name and password
+   instead of "user_name", "your_password" and "new_database_user_password".
+
+& mysql --user=user_name --password=your_password
+
+mysql> CREATE DATABASE IF NOT EXISTS moongallery2;
+mysql> GRANT USAGE ON *.* TO 'moongallery2'@'localhost' IDENTIFIED BY 'new_database_user_password';
+mysql> GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON `moongallery`.* TO 'moongallery'@'localhost';
+mysql> EXIT
+
+& mysql --user=user_name --password=your_password moongallery < ../database/create.sql
+
+
+ * Set configuration.
+
+nano config.php
+
+
+ * Copy sources to target directory (which will be accessed by web server). Be
+   aware that your intended path can be different than example path.
+   /var/www/moongallery is used as target path for purpose of example.
+
+& cp -r ../src /var/www/moongallery
