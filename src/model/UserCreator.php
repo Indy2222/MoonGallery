@@ -38,7 +38,7 @@ class UserCreator {
     /** regular expression wich shall be used to test e-mail */
     public static $REGEX_EMAIL = "/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/";
     /** regular expression wich shall be used to test full name */
-    public static $REGEX_FULL_NAME = "/^([a-zA-Z]+(\.)?\s)*[a-zA-Z]+$/"; // TODO: add support for different alphabets
+    public static $REGEX_FULL_NAME = "/^([a-zA-ZáčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]+(\.)?\s)*[a-zA-ZáčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]+$/"; // TODO: add support for different alphabets
     /** regular expression wich shall be used to test alias */
     public static $REGEX_ALIAS = "/^\S+(([\S\s]*\S+)|$)$/"; // has to include full name!
     protected $user;
