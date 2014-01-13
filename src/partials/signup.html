@@ -8,11 +8,11 @@
         </div>
 
         <form ng-submit="signUp()">
-            <span class="input_title required">Email</span> <input type="text" name="email" required pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" ng-model="email"><br>
-            <span class="input_title required">Full name</span> <input type="text" name="full_name"
+            <label class="input_title required">Email</label> <input type="text" name="email" required pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" ng-model="email"><br>
+            <label class="input_title required">Full name</label> <input type="text" name="full_name"
                     required pattern="^([a-zA-ZáčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]+(\.)?\s)*[a-zA-ZáčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]+$" ng-model="fullName"><br>
-            <span class="input_title">Alias</span> <input type="text" name="alias" pattern="^\S+(([\S\s]*\S+)|$)$" ng-model="alias"><br>
-            <span class="input_title required">Password</span> <input type="password" name="password" required pattern="^[\w-\.]+$" ng-model="password"><br>
+            <label class="input_title">Alias</label> <input type="text" name="alias" pattern="^\S+(([\S\s]*\S+)|$)$" ng-model="alias"><br>
+            <label class="input_title required">Password</label> <input type="password" name="password" required pattern="^[\w-\.]+$" ng-model="password"><br>
             <input type="submit" value="Sign up">
         </form>
     </div>

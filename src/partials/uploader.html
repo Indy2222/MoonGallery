@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <form ng-submit="uploadGallery()" ng-show="!uploading" class="form">
-    <span class="input_title required">Name</span> <input type="text" required ng-model="gallery.name"><br>
-    <span class="input_title required">Photos</span> <input type="file" required accept="image/jpeg" ng-model="gallery.files" onchange="angular.element(this).scope().setFiles(this)" multiple><br>
+    <label class="input_title required">Name</label> <input type="text" required ng-model="gallery.name"><br>
+    <label class="input_title required">Photos</label> <input type="file" required accept="image/jpeg" ng-model="gallery.files" onchange="angular.element(this).scope().setFiles(this)" multiple><br>
     <input type="submit" value="Upload">
 </form>
 
