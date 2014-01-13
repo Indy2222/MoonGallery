@@ -20,6 +20,9 @@
 require_once 'model/UserLoader.php';
 require_once 'model/Password.php';
 
+/**
+ * Maintain info about logging in.
+ */
 class Login {
 
     protected $user = null;
@@ -28,6 +31,9 @@ class Login {
 
     }
 
+    /**
+     * Refreshes info about loggin in.
+     */
     public function refresh() {
         if (isset($_SESSION["user"])) {
             $userLoader = new UserLoader($_SESSION["user"]);
@@ -38,14 +44,32 @@ class Login {
         }
     }
 
+    /**
+     * If user is logged in returns him otherwise null.
+     *
+     * @return User
+     */
     public function getUser() {
         return $this->user;
     }
 
+    /**
+     * Returns wheter user is logged in.
+     *
+     * @return boolean
+     */
     public function isLoggedIn() {
         return $this->user != null;
     }
 
+    /**
+     * Try to log in the user and returns if succeed. It check user e-mail and
+     * password.
+     *
+     * @param String $email
+     * @param String $password
+     * @return boolean
+     */
     public function login($email, $password) {
         if ($this->isLoggedIn()) {
             return false;
@@ -67,6 +91,11 @@ class Login {
         return $this->isLoggedIn();
     }
 
+    /**
+     * Log out the user and returns if succeed. Fails if noone is logged in.
+     *
+     * @return boolean
+     */
     public function logout() {
         if ($this->isLoggedIn()) {
             $this->user = null;
@@ -77,6 +106,12 @@ class Login {
         }
     }
 
+    /**
+     * Returns ID of user with specified e-mail.
+     *
+     * @param String $email
+     * @return integer ID of the user or -1 if there is not such user
+     */
     protected function getUserIdByEmail($email) {
         $id = -1;
 

@@ -22,24 +22,43 @@ require_once 'model/Password.php';
 require_once 'model/Person.php';
 require_once 'model/Group.php';
 
+/**
+ * Tool which construct user by his id
+ */
 class UserLoader {
 
     protected $id;
     protected $user;
 
+    /**
+     * Initiate loader
+     *
+     * @param int $id user ID
+     */
     public function __construct($id) {
         $this->id = $id;
     }
 
+    /**
+     * Loads and construct user from database
+     */
     public function load() {
         $this->loadUser();
         $this->loadGroups();
     }
 
+    /**
+     * Return loaded user or null.
+     *
+     * @return User
+     */
     public function get() {
         return $this->user;
     }
 
+    /**
+     * Load info about user
+     */
     protected function loadUser() {
         $query = mysql_query("SELECT "
                 . "user.password, user.password_salt, user.id AS user_id, "
@@ -61,6 +80,9 @@ class UserLoader {
         }
     }
 
+    /**
+     * Load info about users groups
+     */
     protected function loadGroups() {
         if ($this->user != null) {
             $query = mysql_query("SELECT "
@@ -76,5 +98,4 @@ class UserLoader {
             }
         }
     }
-
 }

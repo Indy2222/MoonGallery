@@ -17,6 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Object storing info about any person.
+ */
 class Person {
 
     protected $id;

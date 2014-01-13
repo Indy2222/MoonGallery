@@ -19,16 +19,27 @@
 
 class UserCreator {
 
+    /** check hasn'd identified any errors */
     public static $CHECK_OK = 0;
+    /** password is not strong enough, probably too short */
     public static $PASSWORD_TOO_SOFT = 1;
+    /** password has inconvenient form */
     public static $PASSWORD_IS_WRONG = 2;
+    /** an user has already registered with the e-mail */
     public static $EMAIL_EXISTS = 3;
+    /** e-mail has inconvenient form */
     public static $EMAIL_IS_WRONG = 4;
+    /** full name has inconvenent form */
     public static $FULL_NAME_IS_WRONG = 5;
+    /** alias has inconvenent form */
     public static $ALIAS_IS_WRONG = 6;
+    /** regular expression wich shall be used to test password */
     public static $REGEX_PASSWORD = "/^[\w-\.]+$/";
+    /** regular expression wich shall be used to test e-mail */
     public static $REGEX_EMAIL = "/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/";
+    /** regular expression wich shall be used to test full name */
     public static $REGEX_FULL_NAME = "/^([a-zA-Z]+(\.)?\s)*[a-zA-Z]+$/"; // TODO: add support for different alphabets
+    /** regular expression wich shall be used to test alias */
     public static $REGEX_ALIAS = "/^\S+(([\S\s]*\S+)|$)$/"; // has to include full name!
     protected $user;
     protected $password;
@@ -38,6 +49,12 @@ class UserCreator {
         $this->password = $password;
     }
 
+    /**
+     * Checks if constrated user related data are possible to save (has
+     * convinient form).
+     *
+     * @return boolean
+     */
     public function check() {
         if (preg_match(UserCreator::$REGEX_PASSWORD, $this->password) == 0) {
             return UserCreator::$PASSWORD_IS_WRONG;
@@ -62,12 +79,18 @@ class UserCreator {
         return UserCreator::$CHECK_OK;
     }
 
+    /**
+     * Saves user to the database.
+     */
     public function save() {
         $this->savePerson();
         $this->saveUser();
         $this->saveGroups();
     }
 
+    /**
+     * Saves information about in which groups user is to the database.
+     */
     protected function saveGroups() {
         $userId = $this->user->getID();
         $groups = $this->user->getGroups();
@@ -84,6 +107,11 @@ class UserCreator {
         }
     }
 
+    /**
+     * Saves user info to the database.
+     *
+     * @return integer user ID
+     */
     protected function saveUser() {
         $personId = $this->user->getPerson()->getID();
 
@@ -100,6 +128,11 @@ class UserCreator {
         return $id;
     }
 
+    /**
+     * Saves person of the user to the database.
+     *
+     * @return integer person ID
+     */
     protected function savePerson() {
         $person = $this->user->getPerson();
 

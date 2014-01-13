@@ -44,6 +44,12 @@ class User {
         $this->person = $person;
     }
 
+    /**
+     * Sets that this user belongs to specified group.
+     *
+     * @param Group $group
+     * @param boolean $default true if the group is users default group
+     */
     public function addGroup($group, $default = false) {
         array_push($this->groups, $group);
         if ($default) {
@@ -59,6 +65,13 @@ class User {
         return $this->defaultGroup;
     }
 
+    /**
+     * Return group with specified ID or null if there is no group with this ID
+     * to which user belongs.
+     *
+     * @param int $id
+     * @return Group
+     */
     public function getGroup($id) {
         foreach ($this->groups as $group) {
             if ($group->getID() == $id) {
@@ -73,10 +86,19 @@ class User {
         return $this->id;
     }
 
+    /**
+     *
+     * @return Password
+     */
     public function getPassword() {
         return $this->password;
     }
 
+    /**
+     * Returns person which represents this user.
+     *
+     * @return Person
+     */
     public function getPerson() {
         return $this->person;
     }

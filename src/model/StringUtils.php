@@ -19,6 +19,12 @@
 
 class StringUtils {
 
+    /**
+     * Generates random string.
+     * 
+     * @param int $length random string length
+     * @return String
+     */
     public static function generateRandomString($length) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
