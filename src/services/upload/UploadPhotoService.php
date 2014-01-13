@@ -24,6 +24,10 @@ require_once 'model/StringUtils.php';
 class UploadPhotoService implements iService {
 
     public function process($params) {
+        if (!isset($params["id"]) || !isset($params["start"]) || !isset($params["size"])) {
+            return false;
+        }
+
         $fileId = $params["id"];
         $fileStart = $params["start"];
         $fileSize = $params["size"];

@@ -16,14 +16,20 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<h1>{{photo.name}}</h1>
+<div class="photo_view">
+    <div class="details">
+        <h1>{{photo.name}}</h1>
 
-<div>
-    <a ng-href="#/gallery/{{photo.galleryId}}">back to gallery</a> |
-    <a ng-href="#/photo/{{photo.previous}}" ng-show="photo.previous != null">previous</a> |
-    <a ng-href="#/photo/{{photo.next}}" ng-show="photo.next != null">next</a>
+        <div class="navigation">
+            <span><a ng-href="#/gallery/{{photo.galleryId}}">GALLERY</a></span>
+            <span ng-show="photo.previous != null"> | <a ng-href="#/photo/{{photo.previous}}">PREVIOUS</a></span>
+            <span ng-show="photo.next != null"> | <a ng-href="#/photo/{{photo.next}}" >NEXT</a></span>
+        </div>
+    </div>
+
+    <div class="image">
+        <a ng-href="{{photo.fullImage}}" title="Click for full size">
+            <img ng-src="{{photo.image}}" alt="{{photo.name}}">
+        </a>
+    </div>
 </div>
-
-<a ng-href="{{photo.fullImage}}" title="Click to full size">
-    <img ng-src="{{photo.image}}" alt="{{photo.name}}">
-</a>

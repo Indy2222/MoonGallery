@@ -26,10 +26,14 @@ require_once 'model/Group.php';
 class RegisterService implements iService {
 
     public function process($params) {
+        if (!isset($params["email"]) || !isset($params["password"]) || !isset($params["full_name"])) {
+            return false;
+        }
+
         $email = $params["email"];
         $password = $params["password"];
         $fullName = $params["full_name"];
-        $alias = $params["alias"];
+        $alias = isset($params["alias"]) ? $params["alias"] : null;
 
         $passwordObject = new Password();
         $passwordObject->initFromPassword($password);
