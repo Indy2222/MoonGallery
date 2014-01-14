@@ -26,3 +26,5 @@ $files_dir = "files/"; // directory to which upload photos
 
 $preview_width = 250; // preview image width
 $normal_width = 1024; // normal image width
+
+$CSRF_tooken_protection = false; // protection against Cross-site request forgery by secreet tooken

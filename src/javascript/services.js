@@ -6,15 +6,19 @@ angular.module('moonGalleryServices', [], function($provide) {
 
             return {
                 load: function(service, arguments) {
-                    var components = "service=" + encodeURIComponent(service);
+                    var url = "service.php?service=" + encodeURIComponent(service);
 
                     if (arguments) {
                         for (var key in arguments) {
-                            components += "&" + key + "=" + encodeURIComponent(arguments[key]);
+                            url += "&" + key + "=" + encodeURIComponent(arguments[key]);
                         }
                     }
 
-                    return $http.get("service.php?" + components).success(function(data) {
+                    if (loggedIn != null) {
+                        url += "&tooken=" + encodeURIComponent(loggedIn.tooken);
+                    }
+
+                    return $http.get(url).success(function(data) {
                         testLogin(data);
                     });
                 },
@@ -36,10 +40,10 @@ angular.module('moonGalleryServices', [], function($provide) {
                         triggerEvent("loginChange", loggedInLocal);
                     }
                 }
-                
+
                 loggedIn = loggedInLocal;
             }
-            
+
             function triggerEvent(event, data) {
                 var listenersToInform = listeners[event] != null ? listeners[event] : [];
                 listenersToInform.forEach(function(listener) {

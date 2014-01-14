@@ -19,6 +19,7 @@
 
 require_once 'model/UserLoader.php';
 require_once 'model/Password.php';
+require_once 'model/StringUtils.php';
 
 /**
  * Maintain info about logging in.
@@ -26,6 +27,7 @@ require_once 'model/Password.php';
 class Login {
 
     protected $user = null;
+    protected $tooken;
 
     public function __construct() {
 
@@ -34,11 +36,17 @@ class Login {
     /**
      * Refreshes info about loggin in.
      */
-    public function refresh() {
+    public function refresh($tooken) {
+        global $CSRF_tooken_protection;
+
         if (isset($_SESSION["user"])) {
-            $userLoader = new UserLoader($_SESSION["user"]);
-            $userLoader->load();
-            $this->user = $userLoader->get();
+            if ($this->testTooken($tooken) || !$CSRF_tooken_protection) {
+                $userLoader = new UserLoader($_SESSION["user"]);
+                $userLoader->load();
+                $this->user = $userLoader->get();
+            } else {
+                $this->logout();
+            }
         } else {
             $this->user = null;
         }
@@ -60,6 +68,15 @@ class Login {
      */
     public function isLoggedIn() {
         return $this->user != null;
+    }
+
+    /**
+     * Returns tooken which will be tested in another request to keep login.
+     *
+     * @return String
+     */
+    public function getTooken() {
+        return $this->tooken;
     }
 
     /**
@@ -85,6 +102,7 @@ class Login {
             if ($user != null && $user->getPassword()->test($password)) {
                 $this->user = $user;
                 $_SESSION["user"] = $user->getID();
+                $this->generateTooken();
             }
         }
 
@@ -100,6 +118,7 @@ class Login {
         if ($this->isLoggedIn()) {
             $this->user = null;
             unset($_SESSION["user"]);
+            $this->destroyTooken();
             return true;
         } else {
             return false;
@@ -124,6 +143,25 @@ class Login {
         }
 
         return $id;
+    }
+
+    protected function destroyTooken() {
+        unset($_SESSION["tooken"]);
+        $this->tooken = null;
+    }
+
+    protected function generateTooken() {
+        $this->tooken = StringUtils::generateRandomString(10);
+        $_SESSION["tooken"] = $this->tooken;
+    }
+
+    protected function loadTooken() {
+        $this->tooken = $_SESSION["tooken"];
+    }
+
+    protected function testTooken($tooken) {
+        $this->loadTooken();
+        return $tooken != null && $this->tooken != null && $tooken === $this->tooken;
     }
 
 }

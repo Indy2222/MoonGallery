@@ -33,39 +33,61 @@ try {
     return;
 }
 
-$login = new Login();
-$login->refresh();
+$params = processParams();
 
-$responce = createResponce();
+$login = new Login();
+$login->refresh($params["tooken"]);
+
+$responce = createResponce($params);
 
 $database->disconnect();
 
 echo $responce;
 
-function createResponce() {
+function createResponce($params) {
     $responce = array();
 
-    $serviceResponce = processService();
+    $serviceResponce = processService($params);
     $responce["service"] = $serviceResponce;
 
     $login = $GLOBALS["login"];
     if ($login->isLoggedIn()) {
-        $responce["loggedIn"]["alias"] = $login->getUser()->getPerson()->getAlias();
-        $responce["loggedIn"]["email"] = $login->getUser()->getEmail();
+        $loginResponce = array();
+
+        $loginResponce["tooken"] = $login->getTooken();
+
+        $loginResponce["alias"] = $login->getUser()->getPerson()->getAlias();
+        $loginResponce["email"] = $login->getUser()->getEmail();
 
         //TODO: move it elsewhere
-        $responce["loggedIn"]["rights"] = array();
-        $responce["loggedIn"]["rights"]["upload"] = UploadService::canUpload();
+        $loginResponce["rights"] = array();
+        $loginResponce["rights"]["upload"] = UploadService::canUpload();
+
+        $responce["loggedIn"] = $loginResponce;
     }
 
     return json_encode($responce);
 }
 
-function processService() {
+function processService($params) {
     $responce = false;
     $service = ServiceLoader::getService();
+
+    if ($service != null) {
+        $responce = $service->process($params);
+    }
+
+    return $responce;
+}
+
+function processParams() {
     $params = array();
 
+    //$requestPayload = json_decode(file_get_contents("php://input"));
+
+    //foreach ($requestPayload as $key => $value) {
+    //    $params[$key] = $value;
+    //}
     foreach ($_POST as $key => $value) {
         $params[$key] = $value;
     }
@@ -73,9 +95,5 @@ function processService() {
         $params[$key] = $value;
     }
 
-    if ($service != null) {
-        $responce = $service->process($params);
-    }
-
-    return $responce;
+    return $params;
 }
